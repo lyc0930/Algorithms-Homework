@@ -124,43 +124,48 @@ $2^{n+1}=O(2^n)$成立吗？$2^{2n}=O(2^n)$成立吗？
 \\
 
 \paragraph{解}
-递归树如下
-\begin{tikzpicture}[level/.style={sibling distance=60mm/#1}, scale = 0.6, transform shape]
-\node (a) {$cn$}
-    child {node  (b1) {$c(n-a)$}
-        child {node (c1) {$c(n-2a)$}
-            child {node (d1) {$\vdots$}
-                child {node  (e1) {$ca$}}
-                child {node  (e2) {$ca$}}
-            } 
-            child {node (d2) {$ca$}}
+递归树如图\ref{fig:1}所示，
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}, scale = 0.8, transform shape]
+    \node (a) {$cn$}
+        child {node  (b1) {$c(n-a)$}
+            child {node (c1) {$c(n-2a)$}
+                child {node (d1) {$\vdots$}
+                    child {node  (e1) {$ca$}}
+                    child {node  (e2) {$ca$}}
+                } 
+                child {node (d2) {$ca$}}
+            }
+            child {node (c2) {$ca$}}
         }
-        child {node (c2) {$ca$}}
-    }
-    child {node  (b2) {$ca$}
-        child [grow=right] {node {$=$} edge from parent[draw=none]
-            child [grow=right] {node (z1) {$cn$} edge from parent[draw=none]
-                child [grow=up] {node (z0) {$cn$} edge from parent[draw=none]}
-                child [grow=down] {node (z2) {$c(n-a)$} edge from parent[draw=none]
-                    child [grow=down] {node (z3) {$\vdots$} edge from parent[draw=none]
-                        child [grow=down] {node (z4) {$c \cdot 2a$} edge from parent[draw=none]
-                            child [grow=down] {node (z5) {$3c(n-a)$} edge from parent[draw=none]}
+        child {node  (b2) {$ca$}
+            child [grow=right] {node {$=$} edge from parent[draw=none]
+                child [grow=right] {node (z1) {$cn$} edge from parent[draw=none]
+                    child [grow=up] {node (z0) {$cn$} edge from parent[draw=none]}
+                    child [grow=down] {node (z2) {$c(n-a)$} edge from parent[draw=none]
+                        child [grow=down] {node (z3) {$\vdots$} edge from parent[draw=none]
+                            child [grow=down] {node (z4) {$c \cdot 2a$} edge from parent[draw=none]
+                                child [grow=down] {node (z5) {$3c(n-a)$} edge from parent[draw=none]}
+                            }
                         }
                     }
                 }
             }
-        }
-    };
-\path (b1) -- (b2) node [midway] {$+$};
-\path (c1) -- (c2) node [midway] {$+$};
-\path (e1) -- (e2) node [midway] {$+$};
-\path (a) -- (z0) node [midway] {$=$};
-\path (c2) -- (z2) node [midway] {$=$};
-\path (d2) -- (z3) node [midway] {$\cdots$};
-\path (e2) -- (z4) node [midway] {$=$}
-    child [grow=down] {node (y) {$cn+\displaystyle \sum_{i=0}^{n/a - 2}{c(n-i \cdot a)}$} edge from parent[draw=none]};
-\path (y) -- (z5) node [midway] {$=$}; 
-\end{tikzpicture}
+        };
+    \path (b1) -- (b2) node [midway] {$+$};
+    \path (c1) -- (c2) node [midway] {$+$};
+    \path (e1) -- (e2) node [midway] {$+$};
+    \path (a) -- (z0) node [midway] {$=$};
+    \path (c2) -- (z2) node [midway] {$=$};
+    \path (d2) -- (z3) node [midway] {$\cdots$};
+    \path (e2) -- (z4) node [midway] {$=$}
+        child [grow=down] {node (y) {$cn+\displaystyle \sum_{i=0}^{n/a - 2}{c(n-i \cdot a)}$} edge from parent[draw=none]};
+    \path (y) -- (z5) node [midway] {$=$}; 
+    \end{tikzpicture}
+    \caption{为递归式$T(n)=T(n-a)+T(a)+cn$构造递归树}
+    \label{fig:1}
+\end{figure}
 则整棵树的总代价为$T(n) = 3c(n-a) = \Theta(n)$。
 \\
 
