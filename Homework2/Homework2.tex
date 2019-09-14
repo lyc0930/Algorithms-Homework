@@ -22,6 +22,23 @@ $2^{n+1}=O(2^n)$成立吗？$2^{2n}=O(2^n)$成立吗？
 \\
 
 \paragraph{解} 
+前者成立，但后者不成立。\par
+取$c=2$与$n_0=1$，有
+\begin{equation*}
+    0 \leq 2^{n+1} = 2 \cdot 2^n \leq c \cdot 2^n, \qquad \forall n \geq n_0 = 1
+\end{equation*}
+因此$2^{n+1}=O(2^n)$。\par
+假设存在常数$c$与$n_0$使得
+\begin{equation*}
+    0 \leq 2^{2n} \leq c \cdot 2^n, \qquad \forall n \geq n_0
+\end{equation*}
+成立，则有
+\begin{align*}
+    && 0 \leq 2^{2n} &\leq c \cdot 2^n, & \forall n \geq n_0 \\
+    \Rightarrow && 2^n \cdot 2^n &\leq c \cdot 2^n, &  \forall n \geq n_0 \\
+    \Rightarrow && 2^n &\leq c, & \forall n \geq n_0
+\end{align*}
+这与$c$是常数矛盾！因此假设不成立，$2^{2n} \neq O(2^n)$。
 \\
 
 \section{Exercise 3.2-3}
@@ -33,6 +50,37 @@ $2^{n+1}=O(2^n)$成立吗？$2^{2n}=O(2^n)$成立吗？
 \\
 
 \paragraph{解}
+取常数$c_1 = 1 - \dfrac{\lg{e}}{2}$、$c_2 = 1$和$n_0 = 4$，有
+\begin{align*}
+    && n! &\leq n^n, & \forall n \geq 1 \\
+    \Rightarrow && \lg{n!} &\leq \lg{n^n}, & \forall n \geq 1 \\
+    \Rightarrow && \lg{n!} &\leq n \lg{n} = 1 \cdot n \lg{n}, & \forall n \geq 1 \\
+    \Rightarrow && \lg{n!} &\leq c_2 \cdot n \lg{n}, & \forall n \geq n_0 > 1 \\
+    \\
+    && c_1 = 1 - \frac{\lg{e}}{2} &\leq 1 - \dfrac{\lg{e}}{n}, & \forall n \geq 4 \\
+    \Rightarrow && \frac{\lg{e}}{\lg{n}} &\leq 1 - c_1, & \forall n \geq 4 \\
+    \Rightarrow && \lg{e} &\leq (1-c_1)\lg{n}, & \forall n \geq 4 \\
+    \Rightarrow && n\lg{e} &\leq n \lg{n} - c_1 \cdot n\lg{n}, & \forall n \geq 4 \\
+    \Rightarrow && c_1 \cdot n \lg{n} &\leq n\lg{n}-n\lg{e}, & \forall n \geq 4 \\
+    \Rightarrow && c_1 \cdot n \lg{n} &\leq \lg{\left(\frac{n}{e}\right)^n}, & \forall n \geq 4 \\
+    \Rightarrow && c_1 \cdot n \lg{n} &\leq \lg{\left[\sqrt{2 \pi n}\left(\frac{n}{e}\right)^n\right]}, & \forall n \geq 4 \\
+    \Rightarrow && c_1 \cdot n \lg{n} &\leq \lg{\left[\sqrt{2 \pi n}\left(\frac{n}{e}\right)^n \left(1+\Theta \left(\frac{1}{n}\right) \right)\right]}, & \forall n \geq 4 \\
+    \Rightarrow && c_1 \cdot n \lg{n} &\leq \lg{n!}, & \forall n \geq 4 = n_0 \\
+    \Right
+\end{align*}
+故$\lg{(n!)}=\Theta(n \lg{n})$。\par
+下证$n!=\omega (2^n)$且$n!=o(n^n)$：
+\begin{proof}
+\begin{align*}
+    & \lim_{n \to \infty}{\frac{n!}{n^n}} \\
+    =& \lim_{n \to \infty}{\prod_{i=1}^n{\frac{i}{n}}} \\
+    =& 0 \\
+    \\
+    & \lim_{n \to \infty}{\frac{n!}{2^n}} \\
+    =& \lim_{n \to \infty}{\prod_{i=1}^n{\frac{i}{2}}} \\
+    =& \infty \\
+\end{align*}
+\end{proof}
 \\
 
 \section{Exercise 4.3-2 (Use substitution method) }
