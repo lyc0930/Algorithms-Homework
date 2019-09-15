@@ -187,6 +187,7 @@ $T(n)=2T(n/4)+n^2$
 因此，由情况3，递归式的解为$T(n) = \Theta\left(n^2\right)$。
 \\
 
+\FloatBarrier
 \section{Exercise 4.5-4}
 主方法能应用于递归式$T(n)=4T(n/2)+n^2\lg{n}$吗？请说明为什么可以或者为什么不可以。给出这个递归式的一个渐进上界。
 \\
@@ -197,113 +198,186 @@ $T(n)=2T(n/4)+n^2$
 \begin{equation*}
     \frac{f(n)}{n^{\log_b{a}}} = \frac{n^2\lg{n}}{n^2} = \lg{n} = o(n^{\varepsilon})
 \end{equation*}
-因此主定理的三种情况都不成立。
-下面用构造递归树并用代入法证明的方法给出这个递归式的渐进上界。
+因此主定理的三种情况都不成立。\par
+下面用构造递归树（如图\ref{fig:2}所示）并用代入法证明的方法给出这个递归式的渐进上界。
 \begin{figure}
     \centering
     \begin{tikzpicture}[
-        level 1/.style={sibling distance=100mm},
-        level 2/.style={sibling distance=25mm}, 
-        level distance = 25mm,
-        scale = 0.4, 
+        level 1/.style = {sibling distance = 100mm, level distance = 120mm},
+        level 2/.style = {sibling distance = 25mm, level distance = 80mm}, 
+        level 3/.style = {level distance = 80mm},
+        scale=0.2,
         transform shape]
-    \node (a) {$n$}
-        child {node (b1) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
+    \node [scale=5] (a) {$n^2\lg{n}$}
+        child {node [scale=3] (b1) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
             child {node (c1) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child [grow = down] {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
+                child [grow = left] {node [scale=5] (depth) {$\log_2{n} + 1$} edge from parent[draw = none]
+                    child [grow = up] {node (arrow1) {} edge from parent[->]}
+                    child [grow = down] {node (arrow1) {}edge from parent[->]}
+                }
             }
             child {node (c2) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c3) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c4) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
         }
-        child {node (b2) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
+        child {node [scale=3] (b2) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
             child {node (c5) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]}
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]}
             }
             child {node (c6) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3]{$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c7) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c8) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]}
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]}
             }
         }
-        child {node (b3) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
+        child {node [scale=3] (b3) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
             child {node (c9) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c10) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]}
+                child {node [scale=3]{$\vdots$} edge from parent[draw=none]}
             }
             child {node (c11) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c12) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
         }
-        child {node (b4) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
+        child {node [scale=3] (b4) {$\left(\dfrac{n}{2}\right)^2 \lg{\dfrac{n}{2}}$}
             child {node (c13) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c14) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c15) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child {node {$\vdots$} edge from parent[draw=none]} 
+                child {node [scale=3] {$\vdots$} edge from parent[draw=none]} 
             }
             child {node (c16) {$\left(\dfrac{n}{4}\right)^2 \lg{\dfrac{n}{4}}$}
-                child [grow=down]{node {$\vdots$} edge from parent[draw=none]}
-                child [grow=right] {node (z2) {$n^2(\lg{n} - 2)$} edge from parent[draw=none]
-                        child [grow=down] {node (z3) {$\vdots$} edge from parent[draw=none]
-                            child [grow=down] {node (z4) {$\Theta \left(n^{\log_2{4}}\right)$} edge from parent[draw=none]
-                                child [grow=down] {node (z5) {$O \left(n^2 \lg^2{n}\right)$} edge from parent[draw=none]}
+                child [grow=down]{node [scale=4] {$\vdots$} edge from parent[draw=none]}
+                child [grow=right] {node [scale=4] (z2) {$n^2(\lg{n} - 2)$} edge from parent[draw=none]
+                        [level distance=80mm]
+                        child [grow=down] {node [scale=4] (z3) {$\vdots$} edge from parent[draw=none]
+                            child [grow=down] {node [scale=4] (z4) {$\Theta \left(n^{\log_2{4}}\right)$} edge from parent[draw=none]
+                                child [grow=down] {node [scale=5] (z5) {$O \left(n^2 \lg^2{n}\right)$} edge from parent[draw=none]}
+                                child [grow=left] {
+                                    [level distance=18mm]
+                                    node (y1) {$T(1)$} edge from parent[draw=none]
+                                        child [grow=left] {node (y2) {$T(1)$} edge from parent[draw=none]
+                                            child [grow=left] {node (y3) {$T(1)$} edge from parent[draw=none]
+                                                child [grow=left] {node (y4) {$T(1)$} edge from parent[draw=none]
+                                                    child [grow=left] {node (y5) {$T(1)$} edge from parent[draw=none]
+                                                        child [grow=left] {node (y6) {$T(1)$} edge from parent[draw=none]
+                                                            child [grow=left] {node (y7) {$T(1)$} edge from parent[draw=none]
+                                                                child [grow=left] {node (y8) {$T(1)$} edge from parent[draw=none]
+                                                                    child [grow=left] {node (y9) {$T(1)$} edge from parent[draw=none]
+                                                                        child [grow=left] {node (y10) {$T(1)$} edge from parent[draw=none]
+                                                                            child [grow=left] {node (y11) {$\cdots$} edge from parent[draw=none]
+                                                                                child [grow=left] {node (y12) {$\cdots$} edge from parent[draw=none]
+                                                                                    child [grow=left] {node (y13) {$T(1)$} edge from parent[draw=none]
+                                                                                        child [grow=left] {node (y14) {$T(1)$} edge from parent[draw=none]
+                                                                                            child [grow=left] {node (y15) {$T(1)$} edge from parent[draw=none]
+                                                                                                child [grow=left] {node (y16) {$T(1)$} edge from parent[draw=none]
+                                                                                                    child [grow=left] {node (y17) {$T(1)$} edge from parent[draw=none]
+                                                                                                        child [grow=left] {node (y18) {$T(1)$} edge from parent[draw=none]
+                                                                                                            child [grow=left] {node (y19) {$T(1)$} edge from parent[draw=none]
+                                                                                                                child [grow=left] {node (y20) {$T(1)$} edge from parent[draw=none]
+                                                                                                                    child [grow=left] {node (y21) {$T(1)$} edge from parent[draw=none]
+                                                                                                                        child [grow=left] {node (y22) {$T(1)$} edge from parent[draw=none]}
+                                                                                            }
+                                                                                                                }
+                                                                                            }
+                                                                                                        }
+                                                                                            }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }      
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                             }
                         }
-                        child [grow=up] {node (z1) {$n^2(\lg{n} - 1)$} edge from parent[draw=none]
-                            child [grow=up] {node (z0) {$n^2\lg{n}$} edge from parent[draw=none]}
+                        child [grow=up] {node [scale=4] (z1) {$n^2(\lg{n} - 1)$} edge from parent[draw=none]
+                            [level distance=120mm]
+                            child [grow=up] {node [scale=4] (z0) {$n^2\lg{n}$} edge from parent[draw=none]}
                         }
                 }
             }
         }
-        \path (a) -- (z0) node [midway] {$=$};
-        \path (b1) -- (b2) node [midway] {$+$};
-        \path (b2) -- (b3) node [midway] {$+$};
-        \path (b3) -- (b4) node [midway] {$+$};
-        \path (b4) -- (z1) node [midway] {$=$};
-        \path (c1) -- (c2) node [midway] {$+$};
-        \path (c2) -- (c3) node [midway] {$+$};
-        \path (c3) -- (c4) node [midway] {$+$};
-        \path (c4) -- (c5) node [midway] {$+$};
-        \path (c5) -- (c6) node [midway] {$+$};
-        \path (c6) -- (c7) node [midway] {$+$};
-        \path (c7) -- (c8) node [midway] {$+$};
-        \path (c8) -- (c9) node [midway] {$+$};
-        \path (c9) -- (c10) node [midway] {$+$};
-        \path (c10) -- (c11) node [midway] {$+$};
-        \path (c11) -- (c12) node [midway] {$+$};
-        \path (c12) -- (c13) node [midway] {$+$};
-        \path (c13) -- (c14) node [midway] {$+$};
-        \path (c14) -- (c15) node [midway] {$+$};
-        \path (c15) -- (c16) node [midway] {$+$};
-        \path (c16) -- (z2) node [midway] {$=$};
-        \path (z0) -- (z1) node [midway] {$+$};
-        \path (z1) -- (z2) node [midway] {$+$};
-        \path (z2) -- (z3) node [midway] {$+$};
-        \path (z3) -- (z4) node [midway] {$+$};
-        \path (z4) -- (z5) node [midway] {$=$};
-
+        % \path (a) -- (z0) node [midway] {$=$};
+        % \path (b1) -- (b2) node [midway] {$+$};
+        % \path (b2) -- (b3) node [midway] {$+$};
+        % \path (b3) -- (b4) node [midway] {$+$};
+        % \path (b4) -- (z1) node [midway] {$=$};
+        % \path (c1) -- (c2) node [midway] {$+$};
+        % \path (c2) -- (c3) node [midway] {$+$};
+        % \path (c3) -- (c4) node [midway] {$+$};
+        % \path (c4) -- (c5) node [midway] {$+$};
+        % \path (c5) -- (c6) node [midway] {$+$};
+        % \path (c6) -- (c7) node [midway] {$+$};
+        % \path (c7) -- (c8) node [midway] {$+$};
+        % \path (c8) -- (c9) node [midway] {$+$};
+        % \path (c9) -- (c10) node [midway] {$+$};
+        % \path (c10) -- (c11) node [midway] {$+$};
+        % \path (c11) -- (c12) node [midway] {$+$};
+        % \path (c12) -- (c13) node [midway] {$+$};
+        % \path (c13) -- (c14) node [midway] {$+$};
+        % \path (c14) -- (c15) node [midway] {$+$};
+        % \path (c15) -- (c16) node [midway] {$+$};
+        % \path (c16) -- (z2) node [midway] {$=$};
+        % \path (z0) -- (z1) node [midway] {$+$};
+        % \path (z1) -- (z2) node [midway] {$+$};
+        % \path (z2) -- (z3) node [midway] {$+$};
+        % \path (z3) -- (z4) node [midway] {$+$};
+        % \path (z4) -- (z5) node [midway] {$=$};
     \end{tikzpicture}
-    \caption{为递归式$T(n)=T(n-a)+T(a)+cn$构造递归树}
+    \caption{为递归式$T(n)=4T(n/2)+n^2\lg{n}$构造递归树}
     \label{fig:2}
 \end{figure}
+整棵递归树的代价为
+\begin{align*}
+    T(n) =& \sum_{i=0}^{\log_2{n}}{n^2(\lg{n}-i)} \\
+    =& \sum_{i=0}^{\lg{n} - 1}{n^2\lg{n}} - n^2\sum_{i=1}^{\lg{n}}{i} \\
+    =& n^2 \lg^2{n} - n^2\frac{\lg{n}(\lg{n}+1)}{2} \\
+    =& \frac{1}{2} n^2 \lg^2{n} - \frac{1}{2} n^2 \lg{n} \\
+    =& O(n^2\lg^2{n})
+\end{align*}
+下证递归式$T(n)=4T(n/2)+n^2\lg{n} = O(n^2\lg^2{n})$，即证恰当选择常数$c>0$，可有$T(n) \leq cn^2\lg^2{n}$。首先假定此上界对所有正数$m<n$都成立，特别是对于$m = n / 2$，有$T(n/2) \leq c (n/2)^2 \lg^2{(n/2)}$。将其代入递归式，得到
+\begin{align*}
+    T(n) \leq& 4c \left( \dfrac{n}{2} \right)^2 \lg^2{\dfrac{n}{2}} + n^2\lg{n}\\
+    =& cn^2(\lg{n} - 1)^2 + n^2\lg{n}\\
+    \leq& cn^2\lg^2{n}
+\end{align*}
+其中，为使最后一步成立，应有
+\begin{align*}
+    && cn^2(\lg{n} - 1)^2 + n^2\lg{n} &\leq cn^2\lg^2{n} & \\
+    \Rightarrow && c(1 - 2\lg{n}) + n^2\lg{n} &\leq 0 & \\
+    \Rightarrow && c &\geq \frac{\lg{n}}{2\lg{n} - 1}, & n \geq 2 \\
+    \Rightarrow && c &\geq \frac{\lg{2}}{2\lg{2} - 1} = 1, & n \geq 2
+\end{align*}
+即$n \geq 2 $时，只要$c \geq 1$，前式的最后一步都会成立，猜测正确。
+\FloatBarrier
 \\
 \end{document}
