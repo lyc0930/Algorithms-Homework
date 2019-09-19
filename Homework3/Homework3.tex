@@ -9,6 +9,7 @@
 \usepackage{algorithmic}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{tikz}
 \title{Homework 1}
 \author{PB17000297 罗晏宸}
 \date{September 5 2019}
@@ -39,17 +40,23 @@
     && c \lg{\left(\frac{2n}{3}\right)} + \Theta(1) &\leq c \lg{n}& \\
     \Rightarrow && c \lg{\left( \frac{2}{3} \right)} + \Theta(1) &\leq 0 & \\
     \Rightarrow && c \lg{\left( \frac{3}{2} \right)} &\geq \Theta(1) & \\
-    \Rightarrow && c &\geq \frac{\Theta(1)}{\lg{\left( \frac{3}{2} \right)}}& \\
+    \Rightarrow && c &\geq \frac{\Theta(1)}{\lg{\left( \dfrac{3}{2} \right)}}& \\
 \end{align*}
 因此对于充分大的$n$，存在常数$c > 0$，使得$T(n) \leq c \cdot \lg{n}$成立，因此$T(n) = O(\lg{n})$。
 \end{proof}
-\textsc{Build-Max-Heap}的时间复杂度由递归式
-\begin{equation*}
-    
-\end{equation*}
+一个共有$n$各元素的堆高度为$\lfloor \lg{n} \rfloor$，并且高度为$h$的结点有至多$\left\lceil \dfrac{n}{2^{h+1}} \right\rceil$个，而对于一个高度为$h$的结点，\textsc{Max-Heapify}函数的时间复杂度是$O(logn)=O(h)$，因此\textsc{Build-Max-Heap}的时间复杂度可以由以下证明给出
+\begin{proof}
+\begin{align*}
+    \sum_{h=0}^{\lfloor \lg{n} \rfloor}{\left\lceil \frac{n}{2^{h+1}} \right\rceil \cdot O(h)} &= O\left( n\sum_{h=0}^{\lfloor \lg{n} \rfloor}{\frac{h}{2^h}} \right) \\
+    &= O\left( n\sum_{h=0}^{\infty}{\frac{h}{2^h}} \right) \\
+    &= O\left( n\sum_{h=0}^{\infty}{\frac{\dfrac{1}{2}}{\left( 1 - \dfrac{1}{2} \right)^2}} \right) \\
+    &= O(n \cdot 2) \\
+    &= O(n)
+\end{align*}
+\end{proof}
 \\
 
-\section{Exercise 2}
+\section{Exercise 7.2-6 \& 7.2-5}
 \subparagraph{(a)}
 试证明：在一个随机输入数组上，对于任何常数$0 < \alpha \leq 1/2$，\textsc{Partition}产生比$1−\alpha : \alpha$更平衡的划分的概率约为$1−2\alpha$。
 \subparagraph{(b)}
@@ -59,6 +66,45 @@
 
 \paragraph{解}
 \subparagraph{(a)}
+对递归式$T(n)=T(\alpha n) + T((1 - \alpha)n) + cn$构造递归树如图所示
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        level 1/.style = {sibling distance = 3cm},
+        level 2/.style = {sibling distance = 2cm},
+        scale=1.0,
+        transform shape]
+        
+        \node {$cn$}
+            child{node {$c \alpha n$}
+                child{node {$c \alpha^2 n$}
+                    child{node {$\vdots$}
+                        child[grow = left]{node {$-\log_{\alpha}{n}$} edge from parent[draw=none]}
+                    }
+                    child{node {$\vdots$}}
+                }
+                child{node {$c \alpha(1 - \alpha) n$}
+                    child{node {$\vdots$}}
+                    child{node {$\vdots$}}
+                }
+            }
+            child{node {$c (1 - \alpha) n$}
+                child{node {$c \alpha(1 - \alpha) n$}
+                    child{node {$\vdots$}}
+                    child{node {$\vdots$}}
+                }
+                child{node {$c (1 - \alpha)^2 n$}
+                    child{node {$\vdots$}}
+                    child{node {$\vdots$}
+                        child[grow = right]{node {$-\log_{1-\alpha}{n}$} edge from parent[draw=none]}
+                    }
+                }
+            }
+        
+    \end{tikzpicture}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
 \subparagraph{(b)}
 \\
 
