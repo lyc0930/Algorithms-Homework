@@ -23,6 +23,30 @@
 \\
 
 \paragraph{解}
+\textsc{Max-Heapify}的时间复杂度由递归式
+\begin{equation*}
+    T(n) \leq T(2n/3) + \Theta(1)
+\end{equation*}
+给出，要证对某个常数$c > 0$，$T(n) \leq c \cdot \lg{n}$成立。
+\begin{proof}
+假设此上界对所有正数$m < n$都成立，特别是对于$m =  2n/3$，有$T( 2n/3 ) \leq c \cdot \lg{(2n/3)}$，将其代入递归式，得到
+\begin{align*}
+    T(n) &\leq c \cdot \lg{\left(\frac{2n}{3}\right)} + \Theta(1) \\
+    &\leq c \cdot \lg{n} 
+\end{align*}
+其中，为使最后一步成立，应有
+\begin{align*}
+    && c \lg{\left(\frac{2n}{3}\right)} + \Theta(1) &\leq c \lg{n}& \\
+    \Rightarrow && c \lg{\left( \frac{2}{3} \right)} + \Theta(1) &\leq 0 & \\
+    \Rightarrow && c \lg{\left( \frac{3}{2} \right)} &\geq \Theta(1) & \\
+    \Rightarrow && c &\geq \frac{\Theta(1)}{\lg{\left( \frac{3}{2} \right)}}& \\
+\end{align*}
+因此对于充分大的$n$，存在常数$c > 0$，使得$T(n) \leq c \cdot \lg{n}$成立，因此$T(n) = O(\lg{n})$。
+\end{proof}
+\textsc{Build-Max-Heap}的时间复杂度由递归式
+\begin{equation*}
+    
+\end{equation*}
 \\
 
 \section{Exercise 2}
