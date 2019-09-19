@@ -66,22 +66,44 @@
 
 \paragraph{解}
 \subparagraph{(a)}
-对递归式$T(n)=T(\alpha n) + T((1 - \alpha)n) + cn$构造递归树如图所示
+设随机输入数组$A$有n个数$A_0,\,A_1,\,\cdots,\,A_{\alpha n},\,\cdots,\,A_{(1 - \alpha)n},\,\cdots,\,A_n$。
+\begin{proof}
+设新的划分为$1 − \beta : \beta$，要使得划分更平衡，应有$|(1 - \beta) - \beta| < 1 - 2\alpha = |(1 - \alpha) - \alpha|$
+\begin{itemize}
+
+\item 当$\beta \leq \alpha$时，$|(1 - \beta) - \beta| = 1 - 2\beta \geq 1 - 2\alpha$
+
+\item 当$\beta \geq 1 - \alpha$时，$1 - \beta \geq \alpha$, $|(1 - \beta) - \beta| = 2\beta - 1 \geq 1 - 2\alpha$
+
+\item 当$\alpha < \beta < 1 - \alpha$时，$\alpha < 1 - \beta < 1 - \alpha$，$0<|(1 - \beta) - \beta|<1 - 2\alpha$
+
+\end{itemize}
+其中最后一种情况满足要求，假设$\beta$是$[0, \,1]$上的均匀分布，则有
+\begin{equation*}
+P = P\{\alpha < \beta < 1 - \alpha\}=\dfrac{(1 - \alpha) - \alpha}{1 - 0} = 1 - 2\alpha
+\end{equation*}
+\end{proof}
+\subparagraph{(b)}
+对递归式$T(n)=T(\alpha n) + T((1 - \alpha)n) + cn$构造递归树如图\ref{fig:1}所示。
+
 \begin{figure}
     \centering
     \begin{tikzpicture}[
-        level 1/.style = {sibling distance = 3cm},
+        level 1/.style = {sibling distance = 5cm},
         level 2/.style = {sibling distance = 2cm},
+        level 3/.style = {sibling distance = 1cm},
         scale=1.0,
         transform shape]
         
         \node {$cn$}
             child{node {$c \alpha n$}
                 child{node {$c \alpha^2 n$}
-                    child{node {$\vdots$}
-                        child[grow = left]{node {$-\log_{\alpha}{n}$} edge from parent[draw=none]}
+                    child[grow = -70]{node {$\vdots$}}
+                    child[grow = -110]{node {$\vdots$}}
+                    child[grow = left]{node {$-\log_{\alpha}{n}$} edge from parent[draw=none]
+                        child [grow = up, level distance = 3.2cm] {node {} edge from parent[->]}
+                        child [grow = down, level distance = 1cm] {node {} edge from parent[->]}
                     }
-                    child{node {$\vdots$}}
                 }
                 child{node {$c \alpha(1 - \alpha) n$}
                     child{node {$\vdots$}}
@@ -94,18 +116,47 @@
                     child{node {$\vdots$}}
                 }
                 child{node {$c (1 - \alpha)^2 n$}
-                    child{node {$\vdots$}}
-                    child{node {$\vdots$}
-                        child[grow = right]{node {$-\log_{1-\alpha}{n}$} edge from parent[draw=none]}
+                    child[grow = -70]{node {$\vdots$}}
+                    child[grow = -110]{node {$\vdots$}}
+                    child[grow = right, level distance = 2cm]{node {$-\log_{1 - \alpha}{n}$} edge from parent[draw=none]
+                        child [grow = right, level distance = 2cm] {node {$cn$} edge from parent[draw = none]
+                            child [grow = up, level distance = 1.5cm] {node {$cn$} edge from parent[draw = none]
+                                child [grow = up, level distance = 1.5cm] {node {$cn$} edge from parent[draw = none]}
+                            }
+                            child [grow = down, level distance = 1.5cm] {node {$\vdots$} edge from parent[draw = none]
+                                child [grow = down, level distance = 1.5cm] {node {$O(n \lg{n})$} edge from parent[draw = none]}
+                            }
+                        }
+                        child [grow = up, level distance = 3.2cm] {node {} edge from parent[->]}
+                        child [grow = down, level distance = 2.5cm] {node {} edge from parent[->]}
                     }
                 }
             }
         
     \end{tikzpicture}
-    \caption{Caption}
-    \label{fig:my_label}
+    \caption{为表达式式$T(n)=T(\alpha n) + T((1 - \alpha)n) + cn$构造递归树}
+    \label{fig:1}
 \end{figure}
-\subparagraph{(b)}
+\begin{proof}
+从递归树的根到叶结点最右和最左的简单路径长度分别为$-\log_{1 - \alpha}{n}$与$-\log_{\alpha}{n}$，
+\begin{align*}
+    && 0 < \alpha &\leq 1/2 & \\
+    \Rightarrow && \alpha &\leq  1 - \alpha & \\
+    \Rightarrow && \lg{\alpha} &\leq \lg{(1 - \alpha)} & \\
+    \Rightarrow && -\dfrac{1}{\lg{\alpha}} &\leq -\dfrac{1}{\lg{(1 - \alpha)}} & \\
+    \Rightarrow && -\dfrac{\lg{n}}{\lg{\alpha}} &\leq -\dfrac{\lg{n}}{\lg{(1 - \alpha)}} & \\
+    \Rightarrow && -\log_{\alpha}{n} &\leq -\log_{1 - \alpha}{n} &
+\end{align*}
+对于两者之间其他任何一个叶结点的深度$l$，有
+\begin{align*}
+    && \alpha^k(1 - \alpha)^{l-k}n &\leq 1 ,& 0 < k \leq l \\
+    \Rightarrow && k + (l-k)\log_{\alpha}{(1 - \alpha)} + \log_{\alpha}{n} &\leq 0 ,& 0 < k \leq l \\
+    \Rightarrow && l &\geq -\dfrac{\log_{\alpha}{n} + k}{\log_{\alpha}{(1 - \alpha)}}+k ,& 0 < k \leq l \\
+    \Rightarrow && l &\geq -(\log_{\alpha}{n} + k) - k ,& 0 < k \leq l \\
+    \Rightarrow && l &\geq -\log_{\alpha}{n} & \\
+\end{align*}
+同理可证$l &\leq -\log_{1 - \alpha}{n}$。因此叶结点的最小深度大约是$-\log_{\alpha}{n} = −\lg{n}/\lg{\alpha}$，最大深度大约是 $-\log_{1 - \alpha}{n} = −\lg{n}/\lg{(1−\alpha)}$
+\end{proof}
 \\
 
 \section{OnlineJudge Problem H3-1 数字统计}
