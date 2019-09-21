@@ -9,6 +9,16 @@
 \usepackage{algorithmic}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{verbatim}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor = black,
+}
+
 \title{Homework 1}
 \author{PB17000297 罗晏宸}
 \date{September 5 2019}
@@ -29,7 +39,7 @@
 \label{fig:label}
 \end{figure}
 
-\section{Exercise 2.1-3}
+\section{Exercise 2.1-3} \label{2.1-3}
 考虑以下\textbf{查找问题}：\par
 \textbf{输入}：$n$个数的一个序列$A=<a_1,a_2,\cdots,a_n>$和一个值$v$。\par
 \textbf{输出}：下标$i$使得$v=A[i]$或者当$v$不在$A$中出现时，$v$为特殊值$\mathrm{NIL}$。\par
@@ -39,13 +49,12 @@
 \FloatBarrier
 \begin{algorithm}[h]
 \caption{Linear Search}
-\label{alg1}
 \begin{algorithmic}
 \REQUIRE $n \geq 1$
 \ENSURE $(A[i] = v)or(i = \textnormal{NIL})$
 \STATE $i \gets 1$
 \WHILE {$(i \leq n ) and ( a_i \neq v)$}
-$i \gets i + 1$
+\STATE $i \gets i + 1$
 \ENDWHILE
 \IF{$i > n$}
 \STATE $i \gets \textnormal{NIL}$
@@ -60,7 +69,7 @@ $i \gets i + 1$
 \textbf{终止}：在循环终止时，不变式说明在$A[1..i-1]$不存在与$v$相同的元素，则得到的$i$满足算法的输出要求或$i > n$输出相应的结果\text{NIL}。
 
 \section{Exercise 2.2-3}
-再次考虑线性查找问题（参见练习2.1-3）。假定要查找的元素等可能地为数组中的任意元素，平均需要检查输入序列的多少元素？最坏情况又如何呢？用$\Theta$记号给出线性查找的平均情况和最坏情况运行时间。证明你的答案。\\
+再次考虑线性查找问题（参见练习\ref{2.1-3}）。假定要查找的元素等可能地为数组中的任意元素，平均需要检查输入序列的多少元素？最坏情况又如何呢？用$\Theta$记号给出线性查找的平均情况和最坏情况运行时间。证明你的答案。\\
 \par
 \paragraph{解}
 设$X(i)$为要查找的元素$v$为$a_i$时检查的元素数，$P(i)$为要查找的元素$v$为$a_i$的概率，则$X(i)=i,P(i)=\displaystyle \frac{1}{n},\quad i=1,\cdots,n$，有
@@ -86,7 +95,9 @@ $i \gets i + 1$
 \end{align*} \par
 \begin{proof}
     事实上，当$n \geq 5$时，对于常数$1$和$2$，恒有
+    \begin{equation*}
     1 \cdot (\frac{n+1}{2}+2)=\frac{n+1}{2} + 2 \leq n \leq n+5= 2 \cdot (\frac{n+1}{2}+2)
+\end{equation*}
 \end{proof} \par
 在最坏情况下，线性查找的运行时间为
 \begin{align*}
@@ -96,6 +107,8 @@ $i \gets i + 1$
 \end{align*} \par
 \begin{proof}
     事实上，当$n \geq 2$时，对于常数$\displaystyle \frac{1}{2}$和$1$，恒有
+\begin{equation*}
     0.5\cdot(n+2)=\frac{1}{2}\cdot n + 1 \leq n \leq n+2= 1\cdot(n+2)
+\end{equation*}
 \end{proof} \par
 \end{document}

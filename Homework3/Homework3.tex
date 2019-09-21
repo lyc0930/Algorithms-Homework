@@ -14,6 +14,7 @@
 
 \hypersetup{
     colorlinks=true,
+    linkcolor = black,
     urlcolor=blue!30!green,
 }
 
@@ -40,7 +41,7 @@
 假设此上界对所有正数$m < n$都成立，特别是对于$m =  2n/3$，有$T( 2n/3 ) \leq c \cdot \lg{(2n/3)}$，将其代入递归式，得到
 \begin{align*}
     T(n) &\leq c \cdot \lg{\left(\frac{2n}{3}\right)} + \Theta(1) \\
-    &\leq c \cdot \lg{n} 
+    &\leq c \cdot \lg{n}
 \end{align*}
 其中，为使最后一步成立，应有
 \begin{align*}
@@ -61,7 +62,6 @@
     &= O(n)
 \end{align*}
 \end{proof}
-\\
 
 \section{Exercise 7.2-6 \& 7.2-5}
 \subparagraph{(a)}
@@ -92,7 +92,6 @@ P = P\{\alpha < \beta < 1 - \alpha\}=\dfrac{(1 - \alpha) - \alpha}{1 - 0} = 1 - 
 \end{proof}
 \subparagraph{(b)}
 对递归式$T(n)=T(\alpha n) + T((1 - \alpha)n) + cn$构造递归树如图\ref{fig:1}所示。
-
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -101,7 +100,7 @@ P = P\{\alpha < \beta < 1 - \alpha\}=\dfrac{(1 - \alpha) - \alpha}{1 - 0} = 1 - 
         level 3/.style = {sibling distance = 1cm},
         scale=1.0,
         transform shape]
-        
+
         \node {$cn$}
             child{node {$c \alpha n$}
                 child{node {$c \alpha^2 n$}
@@ -138,11 +137,10 @@ P = P\{\alpha < \beta < 1 - \alpha\}=\dfrac{(1 - \alpha) - \alpha}{1 - 0} = 1 - 
                         child [grow = down, level distance = 2.5cm] {node {} edge from parent[->]}
                     }
                 }
-            }
-        
+            };
     \end{tikzpicture}
-    \caption{为表达式式$T(n)=T(\alpha n) + T((1 - \alpha)n) + cn$构造递归树}
-    \label{fig:1}
+    \caption{\label{fig:1}为表达式式$T(n)=T(\alpha n) + T((1 - \alpha)n) + cn$构造递归树}
+
 \end{figure}
 \begin{proof}
 从递归树的根到叶结点最右和最左的简单路径长度分别为$-\log_{1 - \alpha}{n}$与$-\log_{\alpha}{n}$，
@@ -162,19 +160,16 @@ P = P\{\alpha < \beta < 1 - \alpha\}=\dfrac{(1 - \alpha) - \alpha}{1 - 0} = 1 - 
     \Rightarrow && l &\geq -(\log_{\alpha}{n} + k) - k ,& 0 < k \leq l \\
     \Rightarrow && l &\geq -\log_{\alpha}{n} & \\
 \end{align*}
-同理可证$l &\leq -\log_{1 - \alpha}{n}$。因此叶结点的最小深度大约是$-\log_{\alpha}{n} = −\lg{n}/\lg{\alpha}$，最大深度大约是 $-\log_{1 - \alpha}{n} = −\lg{n}/\lg{(1−\alpha)}$
+同理可证$l \leq -\log_{1 - \alpha}{n}$。因此叶结点的最小深度大约是$-\log_{\alpha}{n} = −\lg{n}/\lg{\alpha}$，最大深度大约是 $-\log_{1 - \alpha}{n} = −\lg{n}/\lg{(1−\alpha)}$
 \end{proof}
-\\
 
 \section{OnlineJudge Problem H3-1 数字统计}
-\\
 
 \paragraph{解}
 \href{https://202.38.86.171/status/ce8c27ff6b1ffab6e9fb4db6dd770a60}{\underline{Accepted}}
 \\
 
 \section{OnlineJudge Problem H3-2 考试排名}
-\\
 
 \paragraph{解}
 \href{https://202.38.86.171/status/c68c59682ab2efe4a7fd628089e117c7}{\underline{Accepted}}
