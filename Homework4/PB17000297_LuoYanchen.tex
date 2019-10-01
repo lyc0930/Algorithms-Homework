@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{latexsym}
+\usepackage[plain]{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+
+% \floatname{algorithm}{}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor = black,
+    urlcolor=blue!30!green,
+}
+
+\title{Homework 4}
+\author{PB17000297 罗晏宸}
+\date{October 1 2019}
+
+\begin{document}
+\maketitle
+
+\section{Exercise 1}
+下面的排序算法中哪些是稳定的：插入排序、归并排序、堆排序、快速排序和计数排序？给出一个能使任何排序算法都稳定的方法。你所给出的方法带来的额外时间和空间开销是多少？
+\\
+\paragraph{解}
+插入排序、归并排序、计数排序是稳定的，堆排序和快速排序是不稳定的。\par
+为使得任何（不稳定的）排序算法稳定，存储每一个元素在数组中的原始下标，在对两个元素进行比较时增加原始下标的比较。\par
+\subparagraph{额外时间开销}
+因为此方法仅增加了每次比较的操作次数，因此渐进的时间复杂度是不改变的，只会增加隐含的常数因子。
+\subparagraph{额外空间开销}
+存储$n$个元素的下标数字，需要额外$O(n)$的空间。
+\\
+
+\section{Exercise 2}
+假设用\textsc{Random-Select}去选择数组$A = \langle 3,2,9,0,7,5,4,8,6,1 \rangle$ 的最小元素，给出能够导致\textsc{Random-Select}最坏情况发生的一个划分序列。
+
+\begin{algorithm}[H]
+    % \caption{Random-Select$(A,p,r,i)$}
+    \textsc{Random-Select}$(A,p,r,i)$
+    \begin{algorithmic}[1]
+    \IF{$p = r$}
+    \RETURN $A[p]$
+    \ENDIF
+    \STATE $q \gets \textsc{Randomized-Partition}(A,p,r)$
+    \STATE $k \gets q - p + 1$
+    \IF{$i = k$}
+    \RETURN $A[q]$
+    \ELSE
+    \IF {$i < k$}
+    \RETURN \textsc{Random-Select}$(A,p,q-1,i)$
+    \ELSE
+    \RETURN \textsc{Random-Select}$(A,q+1,r,i-k)$
+    \ENDIF
+    \ENDIF
+    \end{algorithmic}
+\end{algorithm}
+
+\paragraph{解}
+当每次划分均选择数组中的最大值时，\textsc{Random-Select}会发生最坏情况，一个简单的序列样例为$\langle 9,8,7,6,5,4,3,2,1,0 \rangle$。
+\\
+
+\section{OnlineJudge Problem H4-1 抽奖}
+
+\paragraph{解}
+\href{https://202.38.86.171/status/829aee86f921ebd694c0d52303582a55}{\underline{Accepted}}
+\\
+
+\section{OnlineJudge Problem H4-2 数组排序}
+
+\paragraph{解}
+\href{https://202.38.86.171/status/7ea7548feef36a762b4a53e940d47aba}{\underline{Accepted}}
+\\
+
+\end{document}
