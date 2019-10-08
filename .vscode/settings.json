@@ -2,7 +2,6 @@
     "editor.fontFamily": "Consolas, 微软雅黑",
     "files.autoSave": "onFocusChange",
     "editor.renderWhitespace": "selection",
-    "editor.wordWrap": "bounded",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
