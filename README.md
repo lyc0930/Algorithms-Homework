@@ -3,13 +3,13 @@
 
 Homework assignments of **Introduction to Algorithms**
 
-[Homework 1](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework1)
+## [Homework 1](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework1)
 2019.9.5
 - Insertion Sort
 - Linear Search
 - Loop Invariants
 
-[Homework 2](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework2)
+## [Homework 2](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework2)
 9.13
 - Algorithms Analysis
     - Asymptotic Notation
@@ -18,7 +18,7 @@ Homework assignments of **Introduction to Algorithms**
         - Recursion Tree
         - Master Method
 
-[Homework 3](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework3)
+## [Homework 3](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework3)
 9.25
 - Heap Sort
 - Quick Sort
@@ -27,7 +27,7 @@ Homework assignments of **Introduction to Algorithms**
     - [H3-1 数字统计](https://202.38.86.171/problem/H3-1)
     - [H3-2 考试排名](https://202.38.86.171/problem/H3-2)
 
-[Homework 4](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework4)
+## [Homework 4](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework4)
 10.3
 - Stable Sort
 - Random Select
