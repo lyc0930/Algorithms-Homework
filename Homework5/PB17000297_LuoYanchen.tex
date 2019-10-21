@@ -13,7 +13,7 @@
 \usepackage{tikz}
 \usepackage{hyperref}
 
-% \floatname{algorithm}{}
+\allowdisplaybreaks[2]
 
 \hypersetup{
     colorlinks=true,
@@ -31,12 +31,165 @@
 \section*{Exercise 1}
 考虑一个大小为$m = 1000$的散列表和一个对应的散列函数$h(k) = \lfloor m(kA\ \text{mod}\ 1) \rfloor$，其中$A = (\sqrt{5} − 1)/2$，试计算关键字61, 62, 63, 64和65被映射到的位置。
 \paragraph{解}
+由散列函数，代入关键字计算如下：
+\begin{align*}
+    h(61)
+        &= \lfloor m(kA\ \text{mod}\ 1) \rfloor \\
+        &= \left \lfloor 1000 \times \left(61 \times \frac{\sqrt{5}-1}{2} \ \text{mod}\ 1 \right) \right \rfloor \\
+        &= \left \lfloor 1000 \times \left( 61 \times \frac{\sqrt{5}-1}{2} - 37 \right) \right \rfloor \\
+        &= \left \lfloor 30500\sqrt{5} - 67500 \right \rfloor \\
+        &= 700 \\
+    \\
+    h(62)
+        &= \left \lfloor 1000 \times \left(62 \times \frac{\sqrt{5}-1}{2} \ \text{mod}\ 1 \right) \right \rfloor \\
+        &= \left \lfloor 31000\sqrt{5} - 69000 \right \rfloor \\
+        &= 318 \\
+    \\
+    h(63)
+        &= \left \lfloor 1000 \times \left(63 \times \frac{\sqrt{5}-1}{2} \ \text{mod}\ 1 \right) \right \rfloor \\
+        &= \left \lfloor 31500\sqrt{5} - 69500 \right \rfloor \\
+        &= 936 \\
+        \\
+    h(64)
+        &= \left \lfloor 1000 \times \left(64 \times \frac{\sqrt{5}-1}{2} \ \text{mod}\ 1 \right) \right \rfloor \\
+        &= \left \lfloor 32000\sqrt{5} - 71000 \right \rfloor \\
+        &= 554 \\
+        \\
+    h(65)
+        &= \left \lfloor 1000 \times \left(65 \times \frac{\sqrt{5}-1}{2} \ \text{mod}\ 1 \right) \right \rfloor \\
+        &= \left \lfloor 32500\sqrt{5} - 72500 \right \rfloor \\
+        &= 172 \\
+\end{align*}
+因此，关键字61, 62, 63, 64和65分别被映射到表中地址为700, 318, 936, 554, 172的位置
 
 \section*{Exercise 2}
-考虑用开放寻址法将关键字10, 22, 31, 4, 15, 28, 17, 88, 59插入到一长度为$m = 11$的散列表中，辅助散列函数为$h'(k) = k$。试说明分别用线性探查、二次探查（$c_1 = 1,\,c_2 = 3$）和双重散列（$h_1(k) = k,\,
+考虑用开放寻址法将关键字10, 22, 31, 4, 15, 28, 17, 88, 59插入到一长度为$m = 11$的散列表中，辅助散列函数为$(k) + 0 = k$。试说明分别用线性探查、二次探查（$c_1 = 1,\,c_2 = 3$）和双重散列（$h_1(k) = k,\,
 h_2(k) = 1 + (k\ \text{mod}\ (m − 1))$）将这些关键字插入散列表的过程。
 
 \paragraph{解}
+使用三种方式插入关键字的过程与结果如下
+\subparagraph{线性探查}
+\begin{align*}
+    &h(10) &= (10 + 0) \ \text{mod}\  11 &= 10 \\
+    \\
+    &h(22) &= (22 + 0) \ \text{mod}\  11 &= 0 \\
+    \\
+    &h(31) &= (31 + 0) \ \text{mod}\  11 &= 9 \\
+    \\
+    &h(4) &= (4 + 0) \ \text{mod}\  11 &= 4 \\
+    \\
+    && (15 + 0) \ \text{mod}\  11 &= \mathbf{4} \\
+    &h(15) &= (15 + 1) \ \text{mod}\  11 &= 5 \\
+    \\
+    &h(28) &= (28 + 0) \ \text{mod}\  11 &= 6 \\
+    \\
+    &&(17 + 0) \ \text{mod}\  11 &= \mathbf{6} \\
+    &h(17) &= (17 + 1) \ \text{mod}\  11 &= 7 \\
+    \\
+    &&(88 + 0) \ \text{mod}\  11 &= \mathbf{0} \\
+    &h(88) &= (88 + 1) \ \text{mod}\  11 &= 1 \\
+    \\
+    &&(59 + 0) \ \text{mod}\  11 &= \mathbf{4} \\
+    &&(59 + 1) \ \text{mod}\  11 &= \mathbf{5} \\
+    &&(59 + 2) \ \text{mod}\  11 &= \mathbf{6} \\
+    &&(59 + 3) \ \text{mod}\  11 &= \mathbf{7} \\
+    &h(59) &= (59 + 4) \ \text{mod}\  11 &= 8
+\end{align*}
+最终散列表如表所示
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    地址 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+    关键字 & 22 & 88 &  &  & 4 & 15 & 28 & 17 & 59 & 31 & 10 \\ \hline
+    \end{tabular}
+    \caption{使用线性探查将关键字插入散列表}
+\end{table}
+
+\subparagraph{二次探查}
+\begin{align*}
+    &h(10) &= (10 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= 10 \\
+    \\
+    &h(22) &= (22 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= 0 \\
+    \\
+    &h(31) &= (31 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= 9 \\
+    \\
+    &h(4) &= (4 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= 4 \\
+    \\
+    && (15 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= \mathbf{4} \\
+    &h(15) &= (15 + 1 \times 1 + 3 \times 1^2 ) \ \text{mod}\  11 &= 8 \\
+    \\
+    &h(28) &= (28 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= 6 \\
+    \\
+    &&(17 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= \mathbf{6} \\
+    &&= (17 + 1 \times 1 + 3 \times 1^2 ) \ \text{mod}\  11 &= \mathbf{7} \\
+    &&= (17 + 1 \times 2 + 3 \times 2^2 ) \ \text{mod}\  11 &= \mathbf{8} \\
+    &h(17) &= (17 + 1 \times 3 + 3 \times 3^2 ) \ \text{mod}\  11 &= 3 \\
+    \\
+    &&(88 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= \mathbf{0} \\
+    &&= (88 + 1 \times 1 + 3 \times 1^2 ) \ \text{mod}\  11 &= \mathbf{4} \\
+    &&= (88 + 1 \times 2 + 3 \times 2^2 ) \ \text{mod}\  11 &= \mathbf{3} \\
+    &&= (88 + 1 \times 3 + 3 \times 3^2 ) \ \text{mod}\  11 &= \mathbf{8} \\
+    &&= (88 + 1 \times 4 + 3 \times 4^2 ) \ \text{mod}\  11 &= \mathbf{8} \\
+    &&= (88 + 1 \times 5 + 3 \times 5^2 ) \ \text{mod}\  11 &= \mathbf{3} \\
+    &&= (88 + 1 \times 6 + 3 \times 6^2 ) \ \text{mod}\  11 &= \mathbf{4} \\
+    &&= (88 + 1 \times 7 + 3 \times 7^2 ) \ \text{mod}\  11 &= \mathbf{0} \\
+    &h(88) &= (88 + 1 \times 8 + 3 \times 8^2 ) \ \text{mod}\  11 &= 2 \\
+    \\
+    &&(59 + 1 \times 0 + 3 \times 0^2 ) \ \text{mod}\  11 &= \mathbf{4} \\
+    &&= (59 + 1 \times 1 + 3 \times 1^2 ) \ \text{mod}\  11 &= \mathbf{8} \\
+    &h(59) &= (59 + 1 \times 2 + 3 \times 2^2 ) \ \text{mod}\  11 &= 7
+\end{align*}
+
+最终散列表如表所示
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    地址 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+    关键字 & 22 &  & 88 & 17 & 4 &  & 28 & 59 & 15 & 31 & 10 \\ \hline
+    \end{tabular}
+    \caption{使用二次探查将关键字插入散列表}
+\end{table}
+
+\subparagraph{双重散列}
+\begin{align*}
+    &h(10) &= \big[10 + 0 \times \big(1 + (10\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 10 \\
+    \\
+    &h(22) &= \big[22 + 0 \times \big(1 + (22\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 0 \\
+    \\
+    &h(31) &= \big[31 + 0 \times \big(1 + (31\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 9 \\
+    \\
+    &h(4) &= \big[4 + 0 \times \big(1 + (4\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 4 \\
+    \\
+    &&\big[15 + 0 \times \big(1 + (15\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= \mathbf{4} \\
+    &&\big[15 + 1 \times \big(1 + (15\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= \mathbf{10} \\
+    &h(15) &= \big[15 + 2 \times \big(1 + (15\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 5 \\
+    \\
+    &h(28) &= \big[28 + 0 \times \big(1 + (28\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 6 \\
+    \\
+    &&\big[17 + 0 \times \big(1 + (17\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= \mathbf{6} \\
+    &h(17) &= \big[17 + 1 \times \big(1 + (17\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 3 \\
+    \\
+    &&\big[88 + 0 \times \big(1 + (88\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= \mathbf{0} \\
+    &&\big[88 + 1 \times \big(1 + (88\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= \mathbf{9} \\
+    &h(88) &= \big[88 + 2 \times \big(1 + (88\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 7 \\
+    \\
+    &&\big[59 + 0 \times \big(1 + (59\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= \mathbf{4} \\
+    &&\big[59 + 1 \times \big(1 + (59\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= \mathbf{3} \\
+    &h(59) &= \big[59 + 2 \times \big(1 + (59\ \text{mod}\ 10)\big)\big] \ \text{mod}\  11 &= 2
+\end{align*}
+
+最终散列表如表所示
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    地址 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+    关键字 & 22 &  & 59 & 17 & 4 & 15 & 28 & 88 &  & 31 & 10 \\ \hline
+    \end{tabular}
+    \caption{使用双重散列将关键字插入散列表}
+\end{table}
 
 \section*{Exercise 3}
 因为在基于比较的排序模型中，完成$n$个元素的排序，其最坏情况下需要$\Omega(n \lg{n})$时间。试证明：任何基于比较的算法从$n$个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要$\Omega(n \lg{n})$的时间。
