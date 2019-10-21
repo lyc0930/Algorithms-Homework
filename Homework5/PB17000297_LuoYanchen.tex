@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{latexsym}
+\usepackage[plain]{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+
+% \floatname{algorithm}{}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor = black,
+    urlcolor=blue!30!green,
+}
+
+\title{Homework 5}
+\author{PB17000297 罗晏宸}
+\date{October 19 2019}
+
+\begin{document}
+\maketitle
+
+\section*{Exercise 1}
+考虑一个大小为$m = 1000$的散列表和一个对应的散列函数$h(k) = \lfloor m(kA\ \text{mod}\ 1) \rfloor$，其中$A = (\sqrt{5} − 1)/2$，试计算关键字61, 62, 63, 64和65被映射到的位置。
+\paragraph{解}
+
+\section*{Exercise 2}
+考虑用开放寻址法将关键字10, 22, 31, 4, 15, 28, 17, 88, 59插入到一长度为$m = 11$的散列表中，辅助散列函数为$h'(k) = k$。试说明分别用线性探查、二次探查（$c_1 = 1,\,c_2 = 3$）和双重散列（$h_1(k) = k,\,
+h_2(k) = 1 + (k\ \text{mod}\ (m − 1))$）将这些关键字插入散列表的过程。
+
+\paragraph{解}
+
+\section*{Exercise 3}
+因为在基于比较的排序模型中，完成$n$个元素的排序，其最坏情况下需要$\Omega(n \lg{n})$时间。试证明：任何基于比较的算法从$n$个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要$\Omega(n \lg{n})$的时间。
+
+\paragraph{解}
+
+\section*{Exercise 4}
+\subsection*{(a)}
+将关键字41, 38, 31, 12, 19, 8连续地插入一棵初始为空的红黑树之后，试画出该结果树。
+\subsection*{(b)}
+对于(a)中得到的红黑树，依次删除8, 12, 19，试画出每次删除操作后的红黑树。
+\paragraph{解}
+
+\end{document}
