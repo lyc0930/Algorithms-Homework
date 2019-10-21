@@ -5,14 +5,21 @@
 \usepackage{float}
 \usepackage{placeins}
 \usepackage{latexsym}
-\usepackage[plain]{algorithm}
-\usepackage{algorithmic}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{tikz}
+\usepackage{subfigure}
 \usepackage{hyperref}
 
+\usetikzlibrary{arrows}
+
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered, font=\ttfamily},
+  BlackNode/.style = {treenode, circle, white, font = \ttfamily\bfseries, draw = black, fill = black, text width = 1.5em},
+  RedNode/.style = {treenode, circle, white, font = \ttfamily\bfseries, draw = red, fill = red, text width=1.5em},
+  Nil/.style = {treenode, circle, draw = black, minimum width=0.5em, minimum height=0.5em}
+}
 \allowdisplaybreaks[2]
 
 \hypersetup{
@@ -25,10 +32,13 @@
 \author{PB17000297 罗晏宸}
 \date{October 19 2019}
 
+
+
 \begin{document}
+
 \maketitle
 
-\section*{Exercise 1}
+\section{Exercise 11.3-4}
 考虑一个大小为$m = 1000$的散列表和一个对应的散列函数$h(k) = \lfloor m(kA\ \text{mod}\ 1) \rfloor$，其中$A = (\sqrt{5} − 1)/2$，试计算关键字61, 62, 63, 64和65被映射到的位置。
 \paragraph{解}
 由散列函数，代入关键字计算如下：
@@ -62,7 +72,7 @@
 \end{align*}
 因此，关键字61, 62, 63, 64和65分别被映射到表中地址为700, 318, 936, 554, 172的位置
 
-\section*{Exercise 2}
+\section{Exercise 11.4-1}
 考虑用开放寻址法将关键字10, 22, 31, 4, 15, 28, 17, 88, 59插入到一长度为$m = 11$的散列表中，辅助散列函数为$(k) + 0 = k$。试说明分别用线性探查、二次探查（$c_1 = 1,\,c_2 = 3$）和双重散列（$h_1(k) = k,\,
 h_2(k) = 1 + (k\ \text{mod}\ (m − 1))$）将这些关键字插入散列表的过程。
 
@@ -191,16 +201,85 @@ h_2(k) = 1 + (k\ \text{mod}\ (m − 1))$）将这些关键字插入散列表的�
     \caption{使用双重散列将关键字插入散列表}
 \end{table}
 
-\section*{Exercise 3}
+\section{Exercise 12.1-5}
 因为在基于比较的排序模型中，完成$n$个元素的排序，其最坏情况下需要$\Omega(n \lg{n})$时间。试证明：任何基于比较的算法从$n$个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要$\Omega(n \lg{n})$的时间。
 
-\paragraph{解}
+\paragraph{证明}
+事实上，我们可以通过先进行一次基于比较的排序，再基于此有序序列构造一个除了唯一的叶子结点外，所有结点有且只有左孩子的二叉搜索树，这样得到的算法在最坏情况下需要$\Omega(n \lg{n})$时间，因此任何基于比较的从$n$个元素的任意序列中构造一棵二叉搜索树的算法，在其最坏情况下需要的时间都不会超过$\Omega(n \lg{n})$
+\par
+假设有这样一个基于比较的算法可以从$n$个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要的时间小于$\Omega(n \lg{n})$。已知中序遍历一个二叉搜索树需要的时间为$\Theta(n)$，那么我们可以通过先利用此算法构造二叉搜索树再中序遍历之的方式得到一个在最坏情况下需要的时间小于$\Omega(n \lg{n})$的排序算法，这和已知矛盾，因此假设不成立，即不存在这样的算法可以从$n$个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要的时间小于$\Omega(n \lg{n})$。
+\par
+综上，任何基于比较的算法从$n$个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要$\Omega(n \lg{n})$的时间，证毕。
 
-\section*{Exercise 4}
+\section{Exercise 13.4-3}
 \subsection*{(a)}
 将关键字41, 38, 31, 12, 19, 8连续地插入一棵初始为空的红黑树之后，试画出该结果树。
 \subsection*{(b)}
 对于(a)中得到的红黑树，依次删除8, 12, 19，试画出每次删除操作后的红黑树。
 \paragraph{解}
-
+\subsection*{(a)}
+省略叶子节点后的结果树如图所示
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[->,>=stealth',level/.style={sibling distance = 7.5em/#1,
+        level distance = 2.25em}]
+        \node [BlackNode] {38}
+            child{ node [RedNode] {19}
+                child{ node [BlackNode] {12}
+                    child{ node [RedNode] {8}}
+                    child{ node [] {} edge from parent [draw = none]}
+                }
+                child{ node [BlackNode] {31}}
+            }
+            child{ node [BlackNode] {41}}
+    ;
+    \end{tikzpicture}
+    \caption{插入关键字之后的红黑树}
+    \end{figure}
+    \subsection*{(a)}
+    依次删除关键字后得到的红黑树分别如下图
+    \begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.33\linewidth}
+        \centering
+        \begin{tikzpicture}[->,>=stealth',level/.style={sibling distance = 7.5em/#1,
+            level distance = 2.25em}]
+            \node [BlackNode] {38}
+                child{ node [RedNode] {19}
+                    child{ node [BlackNode] {12}}
+                    child{ node [BlackNode] {31}}
+                }
+                child{ node [BlackNode] {41}}
+            ;
+        \end{tikzpicture}
+        \caption{删除8之后的红黑树}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.33\linewidth}
+        \centering
+        \begin{tikzpicture}[->,>=stealth',level/.style={sibling distance = 7.5em/#1,
+            level distance = 2.25em}]
+            \node [BlackNode] {38}
+                child{ node [BlackNode] {19}
+                    child{ node [] {} edge from parent [draw = none]}
+                    child{ node [RedNode] {31}}
+                }
+                child{ node [BlackNode] {41}}
+            ;
+        \end{tikzpicture}
+        \caption{删除12之后的红黑树}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.33\linewidth}
+        \centering
+        \begin{tikzpicture}[->,>=stealth',level/.style={sibling distance = 7.5em/#1,
+            level distance = 2.25em}]
+            \node [BlackNode] {38}
+                child{ node [BlackNode] {31}}
+                child{ node [BlackNode] {41}}
+            ;
+        \end{tikzpicture}
+        \caption{删除19之后的红黑树}
+    \end{minipage}
+\end{figure}
 \end{document}
