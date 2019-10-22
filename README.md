@@ -34,3 +34,14 @@ Homework assignments of **Introduction to Algorithms**
 - [Online-Judge](https://github.com/lyc0930/Online-Judge)
     - [H4-1 抽奖](https://202.38.86.171/problem/H4-1)
     - [H4-2 数组排序](https://202.38.86.171/problem/H4-2)
+
+## [Homework 5](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework5)
+10.17
+- Hash Table
+    - The multiplication method
+    - Open Addressing
+        - Linear probing
+        - Quadratic probing
+        - Double hashing
+- Binary Search Tree
+- Red Black Tree
