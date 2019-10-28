@@ -1,0 +1,82 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{clrscode3e}
+\usepackage{xcolor}
+
+\newcommand{\SetHrefColor}[1]{
+	\hypersetup{urlcolor=#1}
+}
+
+\hypersetup{
+	colorlinks=true,
+	urlcolor=black,
+}
+
+\title{Homework 6}
+\author{PB17000297 罗晏宸}
+\date{October 26 2019}
+
+
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 14-1 Point of maximum overlap}
+假设我们希望记录一个区间集合的最大重叠点，即被最多数目区间所覆盖的那个点。
+\subparagraph*{a}
+证明：最大重叠点一定是其中一个区间的端点
+\subparagraph*{b}
+设计一个数据结构，使得它能够有效地支持\textsc{Interval-Insert}、\textsc{Interval-Delete}，以及返回最大重叠点的\textsc{Find-Pom}操作。
+\paragraph{解}
+
+\section{Problem 19-1 Alternative implementation of deletion}
+（斐波那契堆删除操作的另一种实现）Pisano教授提出了下面的 \textsc{Fib-Heap-Delete}过程的一个变种，声称如果删除的结点不是由H.min指向的结点，那么该程序运行地更快。
+\begin{codebox}
+\Procname{$\proc{Pisano-Delete}(H,x)$}
+\li	\If $x \isequal \attrib{H}{min}$ \Then
+\li		$\proc{Fib-Heap-Delete}(H)$
+\li \Else
+\li		$y \gets \attrib{x}{p}$
+\li		\If $y \neq \const{nil}$ \Then
+\li			$\proc{Cut}(H,x,y)$
+\li			$\proc{Cascading-Cut}(H,y)$
+		\End
+\li		add $x$'s child list to the root list of $H$
+\li		remove $x$ from the root list of $H$
+\end{codebox}
+\subparagraph*{a}
+该教授的声称是基于第8行可以在$O(1)$实际时间完成的这一假设，它的程序可以运行的更快。该假设有什么问题吗？
+\subparagraph*{b}
+当$x$不是由$H.min$指向时，给出\textsc{Pisano-Delete}实际时间的一个好（紧凑）上界。你给出的上界应该以$x.degree$和调用\textsc{Cascading-Cut}的次数$c$这两个参数来表示。
+
+\paragraph{解}
+
+\section{Exercise}
+使用链表表示和加权合并启发式策略，写出\textsc{Make-Set}，\textsc{Find-Set}和\textsc{Union}操作的伪代码。
+
+\paragraph{解}
+
+
+\section{\href{https://202.38.86.171/problem/H6-1}{OnlineJudge Problem H6-1 在线比赛}}
+
+\SetHrefColor{blue!30!green}
+
+\paragraph{解}
+\href{https://202.38.86.171/status/829aee86f921ebd694c0d52303582a55}{\underline{Accepted}}
+
+\SetHrefColor{black}
+\section{\href{https://202.38.86.171/problem/H6-1}{OnlineJudge Problem H6-2 朋友圈}}
+\SetHrefColor{blue!30!green}
+\paragraph{解}
+\href{https://202.38.86.171/status/7ea7548feef36a762b4a53e940d47aba}{\underline{Accepted}}
+
+
+\end{document}
