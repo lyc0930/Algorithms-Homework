@@ -34,11 +34,15 @@
 \subparagraph*{a}
 证明：最大重叠点一定是其中一个区间的端点
 \subparagraph*{b}
-设计一个数据结构，使得它能够有效地支持\textsc{Interval-Insert}、\textsc{Interval-Delete}，以及返回最大重叠点的\textsc{Find-Pom}操作。
+设计一个数据结构，使得它能够有效地支持\textsc{Interval-Insert}、\\\textsc{Interval-Delete}，以及返回最大重叠点的\textsc{Find-Pom}操作。
 \paragraph{解}
+\subparagraph*{a}
+假设所有的 最大重叠点 均不是任意区间的端点，设一个 最大重叠点 为$m$，与其相距最近的 区间 低端点 为$i.low$，与其相距最近的 区间 高端点为$j.high$，则在区间$[i.low, j.high]$上的所有点均被和$m$相同数目的区间所覆盖，故$i.low$与$j.high$也是 最大重叠点 ，这与假设矛盾，因此假设不成立，即最大重叠点中一定有区间的端点。
+\subparagraph*{b}
+维护一个升序链表，链表的基类型是一个拥有两个成员的结构体，成员$i$表示区间的序号（加入数组的次序），成员$end$表示区间的端点位置，即对于每一个区间$x$，数组中有两个元素分别对应其左端点和右端点。这个链表的有序基于对于各成员端点值的比较，通过二分查找定位，\textsc{Interval-Insert}、\textsc{Interval-Delete}操作均可以在$O(\lg{n})$的时间下实现。对于\textsc{Find-Pom}操作，从表头开始遍历链表，同时对每个区间，记录其左端点是否已出现且仅出现左端点（即对于每一个序号$i$，记录其出现次数是否为1），对于每一个左端点，覆盖厚度加一，每出现一个右端点（区间的端点此前出现过），覆盖厚度减一，比较是否更新最大覆盖厚度，且更新时记录端点，最终返回最大覆盖厚度对应的端点，以上操作消耗的时间是$O(n)$。
 
 \section{Problem 19-1 Alternative implementation of deletion}
-（斐波那契堆删除操作的另一种实现）Pisano教授提出了下面的 \textsc{Fib-Heap-Delete}过程的一个变种，声称如果删除的结点不是由H.min指向的结点，那么该程序运行地更快。
+Pisano教授提出了下面的 \textsc{Fib-Heap-Delete}过程的一个变种，声称如果删除的结点不是由$H.min$指向的结点，那么该程序运行地更快。
 \begin{codebox}
 \Procname{$\proc{Pisano-Delete}(H,x)$}
 \li	\If $x \isequal \attrib{H}{min}$ \Then
@@ -51,6 +55,7 @@
 		\End
 \li		add $x$'s child list to the root list of $H$
 \li		remove $x$ from the root list of $H$
+	\End
 \end{codebox}
 \subparagraph*{a}
 该教授的声称是基于第8行可以在$O(1)$实际时间完成的这一假设，它的程序可以运行的更快。该假设有什么问题吗？
@@ -58,13 +63,51 @@
 当$x$不是由$H.min$指向时，给出\textsc{Pisano-Delete}实际时间的一个好（紧凑）上界。你给出的上界应该以$x.degree$和调用\textsc{Cascading-Cut}的次数$c$这两个参数来表示。
 
 \paragraph{解}
+\subparagraph*{a}
+该假设的问题在于，将$x$的所有孩子添加到$H$中需要的时间应当依赖于$x$孩子的个数，并不是常数时间。
+\subparagraph*{b}
+由上题可知，第8行实际时间应为$O(x.degree)$，而\textsc{Cut}和\\
+\textsc{Cascading-Cut}是常数时间内可以完成的，因此当$x$不是由$H.min$指向时，\textsc{Pisano-Delete}实际时间是$O(x.degree+c)$。
 
-\section{Exercise}
+\section{Exercise 21.2-1}
 使用链表表示和加权合并启发式策略，写出\textsc{Make-Set}，\textsc{Find-Set}和\textsc{Union}操作的伪代码。
 
 \paragraph{解}
+\begin{codebox}
+\Procname{$\proc{Make-Set}(x)$}
+\li	Let o be an object with three fields, next, value, and set
+\li	Let L be a linked list object with head = tail = o
+\li $\attrib{o}{next} \gets \const{nil}$
+\li $\attrib{o}{set} \gets L$
+\li $\attrib{o}{value} \gets x$
+\li	$\attrib{L}{size} \gets 1$
+\li \Return $L$
+\end{codebox}
 
+\begin{codebox}
+\Procname{$\proc{Find-Set}(x)$}
+\li	\Return $\attribbb{o}{set}{head}{value}$
+\end{codebox}
 
+\begin{codebox}
+\Procname{$\proc{Union}(x,y)$}
+\li \If $\attribb{x}{set}{size} \geq \attribb{y}{set}{size}$ \Then
+\li 	$L1 \gets \attrib{x}{set}$
+\li 	$L2 \gets \attrib{y}{set}$
+\li	\Else
+\li 	$L1 \gets \attrib{y}{set}$
+\li 	$L2 \gets \attrib{x}{set}$
+	\End
+\li	$\attribb{L1}{tail}{next} \gets \attrib{L2}{head}$
+\li $z \gets \attrib{L2}{head}$
+\li \While $\attrib{z}{next} \neq \const{nil}$
+	\Do
+\li		$\attrib{z}{set} \gets L1$
+	\End
+\li	$\attrib{L1}{tail} \gets \attrib{L2}{tail}$
+\li $\attrib{L1}{size} \gets \attrib{L1}{size} + \attrib{L2}{size}$
+\li \Return $L1$
+\end{codebox}
 \section{\href{https://202.38.86.171/problem/H6-1}{OnlineJudge Problem H6-1 在线比赛}}
 
 \SetHrefColor{blue!30!green}
