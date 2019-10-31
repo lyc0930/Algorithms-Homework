@@ -45,3 +45,14 @@ Homework assignments of **Introduction to Algorithms**
         - Double hashing
 - Binary Search Tree
 - Red Black Tree
+
+## [Homework 6](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework6)
+10.3
+- Augmenting Data Structures
+    - Interval Tree
+- Fibonacci Heap
+- Data Structures for Disjoint Sets
+    - Linked-list representation & Weighted-union heuristic
+- [Online-Judge](https://github.com/lyc0930/Online-Judge)
+    - [H6-1 在线比赛](https://202.38.86.171/problem/H6-1)
+    - [H6-2 朋友圈](https://202.38.86.171/problem/H6-2)
