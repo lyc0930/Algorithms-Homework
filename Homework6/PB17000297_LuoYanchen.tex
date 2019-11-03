@@ -75,17 +75,17 @@ Pisano教授提出了下面的 \textsc{Fib-Heap-Delete}过程的一个变种，�
 \paragraph{解}
 \begin{codebox}
 \Procname{$\proc{Make-Set}(x)$}
-\li	Let o be an object with three fields, next, value, and set
-\li	Let L be a linked list object with head = tail = o
 \li $\attrib{o}{next} \gets \const{nil}$
-\li $\attrib{o}{set} \gets L$
 \li $\attrib{o}{value} \gets x$
+\li $\attrib{o}{set} \gets L$
 \li	$\attrib{L}{size} \gets 1$
+\li $\attrib{L}{head} \gets o$
+\li $\attrib{L}{tail} \gets o$
 \li \Return $L$
 \end{codebox}
 
 \begin{codebox}
-\Procname{$\proc{Find-Set}(x)$}
+\Procname{$\proc{Find-Set}(o)$}
 \li	\Return $\attribbb{o}{set}{head}{value}$
 \end{codebox}
 
@@ -113,13 +113,13 @@ Pisano教授提出了下面的 \textsc{Fib-Heap-Delete}过程的一个变种，�
 \SetHrefColor{blue!30!green}
 
 \paragraph{解}
-\href{https://202.38.86.171/status/829aee86f921ebd694c0d52303582a55}{\underline{Accepted}}
+\href{https://202.38.86.171/status/214763fc9b554bc707672516ed00b098}{\underline{Accepted}}
 
 \SetHrefColor{black}
 \section{\href{https://202.38.86.171/problem/H6-1}{OnlineJudge Problem H6-2 朋友圈}}
 \SetHrefColor{blue!30!green}
 \paragraph{解}
-\href{https://202.38.86.171/status/7ea7548feef36a762b4a53e940d47aba}{\underline{Accepted}}
+\href{https://202.38.86.171/status/cbfdfebe3bdab71e6f2d4f03a50629eb}{\underline{Accepted}}
 
 
 \end{document}
