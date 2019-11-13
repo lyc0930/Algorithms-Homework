@@ -30,15 +30,39 @@
 \maketitle
 
 \section{Problem 15-1 Longest simple path in a directed acyclic graph}
-给定 一个 有向无环图 $G = (V,E)$ ， 边 权重 为 实数 ， 给定 图中 两个 顶点 $s$ 和 $t$ 。 设计 动态规划 算法 ， 求 从 $s$ 到 $t$ 的 最长 加权 简单 路径 。
+给定 一个 有向 无环 图 $G = (V,E)$ ， 边 权重 为 实数 ， 给定 图中 两个 顶点 $s$ 和 $t$ 。 设计 动态规划 算法 ， 求 从 $s$ 到 $t$ 的 最长 加权 简单 路径 。
 
 \paragraph{解}
+
+由于 $G$ 是有向无环图，且算法要求的是一条简单路径。因此不需要考虑回路，记$W(uv)$是边$uv$的权重，记$F(p,q)$ 是在图$G$中从$p$到$q$的最长加权简单路径，给出转移方程如下
+
+\begin{equation}
+	L(p,q) = \max_{pp' \in E}{ \{ W(p,p') + L(p',q)\} }
+\end{equation}
 
 \section{Exercise 16.2-2}
 设定 动态规划 算法 求解 0-1 背包问题 ， 要求 运行时间 为 $O(nW)$，$n$ 为 商品 数量 ， $W$ 是 小偷 能 放进 背包 的 最大 商品 总 重量 。
 
 \paragraph{解}
-
+设$F[i,w]$表示前$i$件物品恰放入一个容量为$w$的背包可以获得的最大价值，给出状态转移方程：
+\begin{equation}
+	F[i,w] = \max{\{ F[i-1,w],\,F[i-1,w-w_i] + v_i \}}
+\end{equation}
+其中$w_i$与$v_i$分别是第$i$件物品的重量和价值。
+\par
+据此给出算法伪代码如下：
+\begin{codebox}
+	\Procname{$\proc{0-1 Knapsack}(n,W,w,v)$}
+	\li $F[0, 0..W] \gets 0$
+	\li \For $i \gets 1$ \To $n$
+		\Do
+	\li 	\For $w \gets w_i$ \To $W$
+			\Do
+	\li			$F[i,w] \gets \max{\{ F[i-1,w],\,F[i-1,w-w_i] + v_i \}}$
+			\End
+		\End
+	\li \Return $F[n,W]$
+\end{codebox}
 
 \section{Problem 15-6 Planning a company party}
 一位 公司 主席 正在 向 Stewart 教授 咨询 公司 聚会 方案 。 公司 的 内部 结构 关系 是 层次化 的 ， 即 员工 按 主管-下属 关系 构成 一 棵 树 ， 根 结点 为 公司 主席 。 人事部 按 “ 宴会 交际 能力 ” 为 每个 员工 打分 ， 分值 为 实数 。 为了 使 所有 参加 聚会 的 员工 都 感到 愉快 ， 主席 不 希望 员工 及其 直接 主管 同时 出席 。
@@ -46,15 +70,94 @@
 公司 主席 向 Stewart 教授 提供 公司 结构 树 ， 采用 左 孩子 右 兄弟 表示法 （ 参见 课本 10.4 节 ） 描述 。 每 个 节点 除了 保存 指针 外 ， 还 保存 员工 的 名字 和 宴会 交际 评分 。 设计 算法 ， 求 宴会 交际 评分 之 和 最大 的 宾客 名单 。 分析  算法 复杂度 。
 
 \paragraph{解}
+由于主席不希望员工及其直接主管同时出席，对于结构树上的一个结点，若将其加入宾客名单，则不能将其左孩子及其左孩子的全部右兄弟加入名单。设$T$表示公司结构树，其属性$root$对应公司主席、$number$对应全公司人数。$C[i]$表示结构树上以结点$i$为根的子树的最大宴会交际评分之和，其中$i$是结点在$T$中的后序遍历序号，记$GuestList[i]$是$C[i]$对应的宾客名单。
+\begin{codebox}
+	\Procname{$\proc{Company Party Plan}(T)$}
+	\li \For $i \gets 1$ \To $\attrib{T}{number}$
+		\Do
+	\li \If $\attrib{i}{left-child} \isequal \const{nil}$ \Then
+	\li 	$C[i] \gets \attrib{i}{conviviality}$
+	\li 	$GuestList[i] \gets \{ \attrib{i}{name} \}$
+	\li \Else
+	\li 	$C[i] \gets \max{\left \{\displaystyle \sum_{\attrib{j}{parent} = i}{C[j]},\,\sum_{\attribb{j}{parent}{parent} = i}{C[j]} + \attrib{i}{conviviality} \right \}}$
+	\li 	add $\arg\max{\Big \{ \{j | \attrib{j}{parent} = i\},\,\{j | \attribb{j}{parent}{parent} = i\}\Big \}}$ into
+	\zi		$GuestList[i]$
+		\End
+		\End
+	\li \Return $GuestList[T.root]$
+\end{codebox}
+由于在循环中需要向前寻找$i$的孩子和孙子，所以算法的时间复杂度是$O(n^2)$的。
 
 \section{Exercise 16.2-5}
-设计 一 个 高效 的 算法 ， 对 实数线 上 给定 的 一 个 点集 ${x_1,x_2,...,x_n}$ ， 求 一 个 单位 长度 闭 区间 的 集合 ， 包含 所有 给定 的 点 ， 并 要求 此 集合 最小 。 证明 你 的 算法 是 正确 的 。
+设计 一 个 高效 的 算法 ， 对 实数线 上 给定 的 一 个 点集 ${x_1,x_2,\cdots,x_n}$ ， 求 一 个 单位 长度 闭 区间 的 集合 ， 包含 所有 给定 的 点 ， 并 要求 此 集合 最小 。 证明 你 的 算法 是 正确 的 。
 
 \paragraph{解}
+本题可以用贪心的思想解决，对于给定的点集，设其中最小的点是$x_{min}$，则在给出的单位长度闭区间集合${s_1,s_2,\cdots,s_m}$（假设按左端点从小到大排列）中，在一个最优解中一定有$x_{min} \in s_1$，且$s_1 = [x_{min}, x_{min} + 1]$，因为若$\nexists x \in (x_{min}, x_{min} + 1]$，则在$[x_{min} - 1, x_{min} + 1]$中的任意单位长度闭区间或$s_1$对于最后的集合元素个数都没有影响，否则$s_1$包含的$[x_{min}, x_{min} + 1]$中的点一定不少于任何单位长度闭区间。则问题可以递归的转化为逐点贪心的过程，得到的集合是最优的。设$\mathcal{I}[X]$表示包含点集$X$中所有点的最小单位长度闭区间个数，则有：
+\begin{equation}
+	\mathcal{I}[X] =
+	\left\{
+	\begin{aligned}
+		&1 + \mathcal{I}\left[X \Big/ \big\{ x|x \in [x_{min}, x_{min} + 1] \big\} \right], &X \neq \varnothing \\
+		&0, &X = \varnothing
+	\end{aligned}
+	\right.
+\end{equation}
+\par
+据此给出算法伪代码如下：
+\begin{codebox}
+	\Procname{$\proc{Unit-Length Closed Intervals Contain Set}(X)$}
+	\li sort $X$
+	\li \While $X \neq \varnothing$
+		\Do
+	\li 	add $\big[ X[0], X[0] + 1 \big]$ to the set
+	\li		$X \gets X \Big/ \Big\{ x|x \in \big[X[0], X[0] + 1 \big] \Big\}$
+		\End
+	\li \Return the set
+\end{codebox}
 
 \section{Problem 16-1 a. Coin changing }
 考虑 用 最少 的 硬币 找 $n$ 美分 零钱 的 问题 。 假定 每 种 硬币 的 面额 都 是 整数 。 设计 贪心 算法 求解 找零 问题 ， 假定 有 25 美分 、 10 美分 、 5 美分 和 1 美分 四 种 面额 的 硬币 。 证明 你 的 算法 能 找到 最优解 。
 
 \paragraph{解}
-
+认为最优解即使得找零的硬币最少，为达到这一目的，每次寻找能找的最大面额的硬币，算法用伪代码可表述如下：
+\begin{codebox}
+	\Procname{$\proc{Coin Changing}(n)$}
+	\li $quarter \gets 0$
+	\li $dime \gets 0$
+	\li $nickel \gets 0$
+	\li $penny \gets 0$
+	\li \While $n \geq 25$
+		\Do
+	\li		$quarter \gets quarter + 1$
+	\li		$n \gets n - 25$
+		\End
+	\li \While $n \geq 10$
+		\Do
+	\li		$dime \gets dime + 1$
+	\li		$n \gets n - 10$
+		\End
+	\li \While $n \geq 5$
+		\Do
+	\li		$nickel \gets nickel + 1$
+	\li		$n \gets n - 5$
+		\End
+	\li $penny \gets n$
+\end{codebox}
+假设这不是最优解，即存在这样的解${quarter',dime',nickel',penny'}$，使得
+\begin{align*}
+	& n \\
+	=& 25quarter' + 10dime' + 5nickel' + penny' \\
+	=& 25quarter + 10dime + 5nickel + penny \\
+	&quarter' + dime' + nickel' + penny' < quarter + dime + nickel + penny
+\end{align*}
+记$\Delta q = quarter' - quarter,\Delta d = dime' - dime,\Delta n = nickel' - nickel,\Delta p = penny' - penny$，则有
+\begin{align*}
+	\left\{
+	\begin{aligned}
+		\Delta q + \Delta d + \Delta n + \Delta p &< 0 \\
+		25\Delta q + 10\Delta d + 5\Delta n + \Delta p &= 0
+	\end{aligned}
+	\right.
+\end{align*}
+若$\Delta q < 0$则必有$10\Delta d + 5\Delta n + \Delta p > 25|\Delta q| > 0$，同理若$\Delta d < 0$则必有$5\Delta n + \Delta p > 10|\Delta d| > 0$，若$\Delta n < 0$则必有$\Delta p > 5|\Delta n| > 0$，因此$\Delta q = \Delta d = \Delta n = \Delta p = 0$，即两解相同，矛盾，因此算法得到的是最优解。
 \end{document}
