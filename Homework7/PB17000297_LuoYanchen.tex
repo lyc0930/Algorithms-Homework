@@ -34,11 +34,17 @@
 
 \paragraph{解}
 
-由于 $G$ 是有向无环图，且算法要求的是一条简单路径。因此不需要考虑回路，记$W(uv)$是边$uv$的权重，记$F(p,q)$ 是在图$G$中从$p$到$q$的最长加权简单路径，给出转移方程如下
-
+由于 $G$ 是有向无环图，且算法要求的是一条简单路径。因此不需要考虑回路，记$W(uv)$是边$uv$的权重，记$L(G,p,q)$ 是在图$G$中从$p$到$q$的最长加权简单路径的长度，给出转移方程如下
 \begin{equation}
-	L(p,q) = \max_{pp' \in E}{ \{ W(p,p') + L(p',q)\} }
+	L(G,p,q) =
+	\left\{
+	\begin{aligned}
+		&\max_{pp' \in E}{ \left\{ W(pp') + L\left(G \setminus \{p\}, p',q \right) \right\} }, &p \neq q \\
+		&0, &p = q
+	\end{aligned}
+	\right.
 \end{equation}
+记录算法中每一次最大值计算对应的路径，即可得到最长加权简单路径。
 
 \section{Exercise 16.2-2}
 设定 动态规划 算法 求解 0-1 背包问题 ， 要求 运行时间 为 $O(nW)$，$n$ 为 商品 数量 ， $W$ 是 小偷 能 放进 背包 的 最大 商品 总 重量 。
@@ -97,7 +103,7 @@
 	\mathcal{I}[X] =
 	\left\{
 	\begin{aligned}
-		&1 + \mathcal{I}\left[X \Big/ \big\{ x|x \in [x_{min}, x_{min} + 1] \big\} \right], &X \neq \varnothing \\
+		&1 + \mathcal{I}\Big[X \setminus \big\{ x_i | x_i \in [x_{min}, x_{min} + 1], i = 1, \cdots ,n \big\} \Big], &X \neq \varnothing \\
 		&0, &X = \varnothing
 	\end{aligned}
 	\right.
@@ -110,7 +116,7 @@
 	\li \While $X \neq \varnothing$
 		\Do
 	\li 	add $\big[ X[0], X[0] + 1 \big]$ to the set
-	\li		$X \gets X \Big/ \Big\{ x|x \in \big[X[0], X[0] + 1 \big] \Big\}$
+	\li		$X \gets X \setminus \Big\{ x|x \in \big[X[0], X[0] + 1 \big] \Big\}$
 		\End
 	\li \Return the set
 \end{codebox}
