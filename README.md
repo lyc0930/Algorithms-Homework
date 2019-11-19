@@ -56,3 +56,11 @@ Homework assignments of **Introduction to Algorithms**
 - [Online-Judge](https://github.com/lyc0930/Online-Judge)
     - [H6-1 在线比赛](https://202.38.86.171/problem/H6-1)
     - [H6-2 朋友圈](https://202.38.86.171/problem/H6-2)
+
+## [Homework 7](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework7)
+11.12
+- Dynamic Programming
+    - DP in Graph
+    - 0-1 Knapsack
+    - DP in Tree
+- Greedy Algorithms
