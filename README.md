@@ -64,3 +64,11 @@ Homework assignments of **Introduction to Algorithms**
     - 0-1 Knapsack
     - DP in Tree
 - Greedy Algorithms
+
+## [Homework 8](https://github.com/lyc0930/Algorithms-Homework/tree/master/Homework8)
+11.24
+- Amortized Analysis
+    - Aggregate Analysis
+    - The Accounting Method
+    - The Potential Method
+- DFT & FFT
