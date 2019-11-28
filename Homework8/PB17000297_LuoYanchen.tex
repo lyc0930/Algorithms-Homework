@@ -33,17 +33,63 @@
 假定我们对一个数据结构执行一个由 $n$ 个操作组成的操作序列，当 $i$ 严格为 $2$ 的幂时，第 $i$ 个操作的代价为 $i$，否则代价为 $1$。使用聚合分析确定每个操作的摊还代价。
 
 \paragraph{解}
+在执行的$n$个操作中，有至多$\lceil \lg{n} \rceil$个操作的次序是$2$的幂，这些操作的次序（即代价）如下
+\begin{equation*}
+	1, 2, 4, 8, \cdots , 2^{\lceil \lg{n} \rceil}
+\end{equation*}
+$n$个操作的总代价为
+\begin{align*}
+	T =& \sum_{k = 0}^{\lceil \lg{n} \rceil}{2^k} + (n - \lceil \lg{n} \rceil) \times 1 \\
+	=& 2^{\lceil \lg{n} \rceil + 1} - 1 + (n - \lceil \lg{n} \rceil) \\
+	\leq & 2^{\lg{n} + 2} + n - \lg{n} \\
+	=& 3\lg{n} + n
+\end{align*}
+因此每个操作的摊还代价是$O\left(\dfrac{3\lg{n}+n}{n}\right) = O(1)$的。
 
 \section{Exercise 17.2-2}
 用核算法重做第一题。
 
 \paragraph{解}
+当操作次序是$2$的幂时，为其赋$4$的摊还代价，否则为其赋$2$的摊还代价，则每一个不为$2$的幂的操作均会提供$1$的信用以支付差额，对于一个$n$个操作组成的操作序列，有
+\begin{align*}
+	& 4 \times \lceil \lg{n} \rceil + 2 \times (n - \lceil \lg{n} \rceil) \\
+	=& 2 \times \lceil \lg{n} \rceil + 2n \\
+	\leq & 3 \lg{n} + n \\
+	\leq & \sum_{k = 0}^{\lceil \lg{n} \rceil}{2^k} + (n - \lceil \lg{n} \rceil) \times 1
+\end{align*}
+每个操作的摊还代价都是常数，因此都是$O(1)$的。
 
 \section{Exercise 17.3-2}
 使用势能法重做第一题。
 
 \paragraph{解}
-
+定义势函数$\Phi(D_i)$
+\begin{equation*}
+	\Phi(D_i) = \left\{
+	\begin{aligned}
+		&0, &&i = 0 \\
+		&1, &&i = 1 \\
+		&\lg{i} + 1, &&i = 2^{\lfloor \lg{i} \rfloor} \\
+		&\lfloor \lg{i} \rfloor + k, &&i = 2^{\lfloor \lg{i} \rfloor} + k \\
+	\end{aligned}
+	\right.
+\end{equation*}
+则有对任意的$i$，$\Phi(D_i) \geq 0$，且
+\begin{equation*}
+	\Phi(D_i) - \Phi(D_{i - 1}) = \left\{
+	\begin{aligned}
+		&1 - i, &&i = 2^{\lfloor \lg{i} \rfloor} \\
+		&1, &&i = 2^{\lfloor \lg{i} \rfloor} + k \\
+	\end{aligned}
+	\right.
+\end{equation*}
+故有
+\begin{align*}
+	&\sum_{i = 1}^{n}{ \hat{c}_i } \\
+	=&\sum_{i = 1}^{n}{1} \\
+	=&n
+\end{align*}
+因此每个操作的摊还代价是$O(1)$。
 
 \section{Problem 30-3 Multidimensional fast Fourier transform}
 我们可以将一维离散傅里叶变换推广到 $d$ 维上。这时输入是一个 $d$ 维的数组 $A = (a_{j_1,j_2,\cdots,j_d})$，维数分别为 $n_1,n_2,\cdots,n_d$，其中 $n_1 n_2 \cdots n_d = n$。定义 $d$ 维离散傅里叶变换如下：
@@ -56,5 +102,33 @@
 \subparagraph{c}证明：如果采用计算快速傅里叶变换计算每个一维的 DFT，那么计算一个 $d$ 维的 DFT 的总时间是 $O(n\lg{n})$，与 $d$ 无关。
 
 \paragraph{解}
+\subparagraph{a}
+可以交换求和号的顺序
+\begin{align*}
+	&y_{k_1, k_2, \cdots, k_d} \\
+	=& \sum_{j_1 = 0}^{n_1 - 1}\sum_{j_2 = 0}^{n_2 - 1} \cdots \sum_{j_d = 0}^{n_d - 1}{a_{j_1,j_2,\cdots,j_d} \omega_{n_1}^{j_1 k_1}\omega_{n_2}^{j_2 k_2} \cdots \omega_{n_d}^{j_d k_d}} \\
+	=& \sum_{j_d = 0}^{n_d - 1} \cdots \sum_{j_2 = 0}^{n_2 - 1} {\left( \sum_{j_1 = 0}^{n_1 - 1}{a_{j_1,j_2,\cdots,j_d} \omega_{n_1}^{j_1 k_1}} \right) \omega_{n_2}^{j_2 k_2} \cdots \omega_{n_d}^{j_d k_d}}
+\end{align*}
+故可以先计算$n/n_1$个独立的一维DFT：$\displaystyle \sum_{j_1 = 0}^{n_1 - 1}{a_{j_1,j_2,\cdots,j_d} \omega_{n_1}^{j_1 k_1}}$，再将其结果（记为$a_{j_1,j_2,\cdots,j_d}^{(1)}$）作为输入继续计算
+\begin{align*}
+	\sum_{j_d = 0}^{n_d - 1} \cdots \sum_{j_3 = 0}^{n_3 - 1} {\left( \sum_{j_2 = 0}^{n_2 - 1}{a_{j_1,j_2,\cdots,j_d}^{(1)} \omega_{n_2}^{j_2 k_2}} \right) \omega_{n_3}^{j_3 k_3} \cdots \omega_{n_d}^{j_d k_d}}
+\end{align*}
+直到第$d$维
+\begin{align*}
+	\sum_{j_d = 0}^{n_d - 1}{a_{j_1,j_2,\cdots,j_d}^{(d - 1)} \omega_{n_d}^{j_d k_d}}
+\end{align*}
 
+\subparagraph{b}
+如a中所述的计算过程实际上由于求和号与乘号的交换性，可以任意调换顺序。
+
+\subparagraph{c}
+对于a中的计算过程，沿着第 $k$ 维的计算实际需要计算$\displaystyle n \Bigg/ \prod_{i \leq k}{n_k} $个独立的DFT，因此消耗 $O\left( \lg{n_k}  \cdot \displaystyle n \Bigg/ \prod_{i \leq k}{n_k} \right)$ 的时间，总的时间
+\begin{align*}
+	T =& \sum_{k = 1}^d{\frac{n}{\displaystyle\prod_{i \leq k}{n_k}} \cdot \lg{n_k}} \\
+	\leq& \sum_{k = 1}^d{\frac{n}{\displaystyle\prod_{i \leq k}{n_k}} \cdot \lg{n}} \\
+	\leq& \sum_{k = 1}^d{\frac{n}{\displaystyle\prod_{i \leq k}{2}} \cdot \lg{n}} \\
+	\leq& n \lg{n} \cdot \sum_{k = 1}^d{\frac{1}{2}} \\
+	= O(n \lg{n})
+\end{align*}
+即，与$d$无关
 \end{document}
