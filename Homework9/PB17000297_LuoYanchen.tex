@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{clrscode3e}
+\usepackage{xcolor}
+
+\title{Homework 9}
+\author{PB17000297 罗晏宸}
+\date{December 26 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 22-3 Euler tour}
+强连通有向图 $G = (V,E)$ 中的一个欧拉回路是指一条遍历图 $G$ 中每条边恰好一次的环路。不过，这条环路可以多次访问同一个结点。
+\subparagraph{a} 证明：图 $G$ 中有一条欧拉回路当且仅当对于图中的每个结点 $v$，有 $in−degree(v) = out−degree(v)$。
+\subparagraph{b} 给出一个复杂度为 $O(E)$ 的算法来找出图 $G$ 的一条欧拉回路。
+
+\paragraph{解}
+\subparagraph{a}
+
+\subparagraph{b}
+
+
+\section{Problem 24-3 Arbitrage}
+套利交易指的是使用货币汇率之间的差异来将一个单位的货币转换为多于一个单位的同种货币的行为。例如，假定 1 美元可以购买 49 印度卢比，1 印度卢比可以购买 2 日元，1 日元可以购买 0.0107 美元。那么通过在货币间进行转换，一个交易商可以从 1 美元开始，购买 $49*2*0.0107=1.0486$ 美元，从而获得 $4.86\%$ 的利润。
+假定给定 $n$ 种货币 $c_1, c_2, \cdots, c_n$ 和一个 $n \times n$ 的汇率表 $R$，一个单位的 $c_i$ 货币可以购买 $R[i, j]$ 单位的 $c_j$ 货币。
+\subparagraph{a} 给出一个有效的算法来判断是否存在一个货币序列 \\
+$\langle c_{i_1}, c_{i_2}, \cdots, c_{i_k} \rangle$，使得
+\begin{equation*}
+	R[i_1, i_2] \cdot R[i_2, i_3] \cdot\ \cdots\ \cdot R[i_{k−1}, i_k] \cdot R[i_k, i_1] > 1
+\end{equation*}
+请分析算法运行时间。
+\subparagraph{b} 给出一个有效算法来打印出这样一个序列（如果存在这样一种序列），分析算法的运行时间。
+
+\paragraph{解}
+\subparagraph{a}
+
+\subparagraph{b}
+
+
+\section{Exercise 25.3-5}
+假定在一个权重函数为 $\omega$ 的有向图上运行 Johnson 算法。证明：如果图 $G$ 包含一条权重为 $0$ 的环路 $c$，那么对于环路 $c$ 上的每条边 $(u, v)$，$\hat{w}(u,v) = 0$。
+
+\paragraph{解}
+
+
+\section{Problem 26-4 Updating maximum flow}
+设 $G = (V,E)$ 是一个源结点为 $s$ 汇结点为 $t$ 的流网络，其容量全部为整数值。假定我们已经给定 $G$ 的一个最大流。
+\subparagraph{a} 如果将单条边 $(u, v) \in E$ 的容量增加 1 个单位，请给出一个 $O(V + E)$ 时间的算法来对最大流进行更新。
+\subparagraph{b} 如果将单条边 $(u, v) \in E$ 的容量减少 1 个单位，请给出一个 $O(V + E)$ 时间的算法来对最大流进行更新。
+
+
+\paragraph{解}
+\subparagraph{a}
+
+\subparagraph{b}
+
+\end{document}
