@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.9.21)  28 DEC 2019 19:41
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.9.21)  29 DEC 2019 01:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -869,14 +869,19 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 22.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-] [2] [3] [4] (./PB17000297_LuoYanchen.aux) ) 
-Here is how much of TeX's memory you used:
- 30560 strings out of 492909
- 668388 string characters out of 6130813
- 720896 words of memory out of 5000000
- 34186 multiletter control sequences out of 15000+600000
- 564603 words of font info for 88 fonts, out of 8000000 for 9000
- 1348 hyphenation exceptions out of 8191
- 61i,8n,96p,736b,1060s stack positions out of 5000i,500n,10000p,200000b,80000s
+] [2]
+Overfull \hbox (38.48535pt too wide) in paragraph at lines 79--97
+ [][][][][] 
+ []
 
-Output written on PB17000297_LuoYanchen.pdf (4 pages).
+[3] [4] [5] (./PB17000297_LuoYanchen.aux) ) 
+Here is how much of TeX's memory you used:
+ 30541 strings out of 492909
+ 668202 string characters out of 6130813
+ 723895 words of memory out of 5000000
+ 34165 multiletter control sequences out of 15000+600000
+ 577644 words of font info for 99 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 61i,12n,96p,736b,1175s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on PB17000297_LuoYanchen.pdf (5 pages).

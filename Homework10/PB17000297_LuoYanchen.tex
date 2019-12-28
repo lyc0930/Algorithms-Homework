@@ -51,46 +51,82 @@
 \subparagraph{a} 给出一个至少包含 4 个顶点的图，使其满足 $S_G = T_G$。
 \subparagraph{b} 给出一个至少包含 4 个顶点的图，使其满足 $S_G \neq T_G$。
 \subparagraph{c} 证明：对任意的图 $G$，$S_G \subseteq T_G$。
-\subparagraph{d} 证明：对任意的图 $G$，$w(T_G) \geq w(S_G) / 2$。
+\subparagraph{d} 证明：对任意的图 $G$，\sout{$w(T_G) \geq w(S_G) / 2$}   $ w(S_G) \geq w(T_G) / 2$。
 \subparagraph{e} 给出一个 $O(V + E)$ 时间算法，用于计算 2 近似的最大生成树。
 
 
 \paragraph{解}
 \subparagraph{a}
-\begin{figure}[H]
+在下左图中，$S_G = T_G = \{\text{AB}, \text{BC}, \text{CD}\}$
+\begin{figure}[htb]
     \centering
+    \subfloat[$S_G = T_G$]{
     \begin{tikzpicture}[scale=0.75, transform shape]
-      \Vertex[x=0, y=0] {K}
-      \Vertex[x=0, y=2] {F}
-      \Vertex[x=-1, y=4]{D}
-      \Vertex[x=3, y=7] {H}
-      \Vertex[x=8, y=5] {B}
-      \Vertex[x=9, y=2] {N}
-      \Vertex[x=5, y=0] {M}
-      \Vertex[x=3, y=1] {S}
-      \tikzstyle{LabelStyle} = [fill = white, sloped]
-      \tikzstyle{EdgeStyle} = [bend left]
-      \Edge[label=$120$](K)(F)
-      \Edge[label=$650$](H)(S)
-      \Edge[label=$780$](H)(M)
-      \Edge[label=$490$](D)(B)
-      \Edge[label=$600$](D)(M)
-      \Edge[label=$580$](B)(M)
-      \Edge[label=$600$](H)(N)
-      \Edge[label=$490$](F)(H)
-      \tikzstyle{EdgeStyle}=[bend right]
-      \Edge[label=$630$](S)(B)
-      \Edge[label=$210$](S)(N)
-      \Edge[label=$230$](S)(M)
+        \Vertex[x=0, y=2]{A}
+        \Vertex[x=3, y=7]{B}
+        \Vertex[x=8, y=5]{D}
+        \Vertex[x=5, y=0]{C}
+        \tikzstyle{LabelStyle} = [fill = white, sloped]
+        \tikzstyle{EdgeStyle} = [bend left]
+        \Edge[label = $5$](A)(B)
+        \Edge[label = $1$](B)(D)
+        \Edge[label = $3$](D)(C)
+        \tikzstyle{EdgeStyle} = []
+        \Edge[label = $4$](B)(C)
+        \tikzstyle{EdgeStyle} = [bend right]
+        \Edge[label = $2$](A)(D)
     \end{tikzpicture}
+}
+\subfloat[$S_G \neq T_G$]{
+    \begin{tikzpicture}[scale=0.75, transform shape]
+        \Vertex[x=0, y=2]{A}
+        \Vertex[x=3, y=7]{B}
+        \Vertex[x=8, y=5]{D}
+        \Vertex[x=5, y=0]{C}
+        \tikzstyle{LabelStyle} = [fill = white, sloped]
+        \tikzstyle{EdgeStyle} = [bend left]
+        \Edge[label = $1$](A)(B)
+        \Edge[label = $2$](B)(D)
+        \Edge[label = $3$](D)(C)
+        \tikzstyle{EdgeStyle} = []
+        \Edge[label = $4$](B)(C)
+        \tikzstyle{EdgeStyle} = [bend right]
+        \Edge[label = $5$](A)(D)
+    \end{tikzpicture}
+}
 \end{figure}
 \subparagraph{b}
+在下右图中，$S_G = \{\text{AD}, \text{BC}\} \neq T_G = \{\text{AD}, \text{BC}, \text{CD}\}$
 \subparagraph{c}
+在生成$T_G$的算法中，对于$G$中的边按权值从大到小排序，除非出现环，否则依次将其添加入最大权值生成树中，这显然满足贪心性质，可以得到正确的$T_G$。在这个过程中，某一条边没有被选取，意味着它的加入会产生环，进而其两个端点已都加入生成树中了，即这两个端点已经分别有与之相关联的边加入生成树中了，而那些边的边权不小于这条未被选入的边，因此$S_G \subseteq T_G$。
 \subparagraph{d}
-\subparagraph{e}
+由于$S_G \subseteq T_G$，因此$w(T_G) \geq w(S_G) \geq w(S_G) / 2$是显然的。\par
+由$S_G$定义易知，有$|V| / 2 \leq |S_G| \leq |V|$，而$|T_G| = |V| - 1$，因此$|T_G \setminus S_G| \leq |V| / 2 - 1 \leq |S_G|$，且对于$T_G \setminus S_G$中任意一条边相关联的顶点，这条边的权值一定不是以之为端点的边中的最大者，因此$w(T_G \setminus S_G) \leq w(S_G)$，从而 $w(T_G) / 2 \leq w(S_G) $。
+\subparagraph{e} 算法如下：
+\begin{codebox}
+	\Procname{$\proc{Approx-Max-Spanning-Tree}(G(V, E))$}
+    \li $T \gets \varnothing$
+    \li \For $v \in V$
+        \Do
+    \li     $max \gets -\infty$
+    \li     $best \gets v$
+    \li     \For $u \in \text{neighbors of } v$
+            \Do
+    \li         \If $w(u, v) \geq max$
+                \Then
+    \li             $v \gets u$
+    \li             $max = w(u, v)$
+                \End
+            \End
+    \li     $T \gets T \cup \{u, v\}$
+        \End
+    \li \Return T
+\end{codebox}
+由 \textbf{c}与\textbf{d} 可知，这个算法得到最大权值生成树的子集，且是2近似的。
 
 \section{Exercise 34.4-7}
 给出一种 2-SAT 问题的多项式解法
 \paragraph{解}
-
+由于 2-SAT 问题只限制两个变量，对于给定的待满足布尔式，其合取范式的每个子句可以在线性时间内改写为只由$\rightarrow$与$\lnot$组成，进而对于每一个子句，以各变量及其否定为点集，以蕴含关系$\rightarrow$为边集建立有向图，对于一个单独的变量组成的合取范式，那就将其否定连向它。\par
+在这张有向图上，使用$Tarjan$算法在多项式时间内求出最大强连通分量，若这个分量不同时包含某个变量和其否定对应的顶点，则这是2-SAT问题的一组解，否则给定的输入是无解的。
 \end{document}
