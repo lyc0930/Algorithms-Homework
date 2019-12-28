@@ -24,9 +24,22 @@
 
 \paragraph{解}
 \subparagraph{a}
-
+若图 $G$ 中有一条欧拉回路 $W$，则每个顶 $v$ 都一定在 $W$ 上出现。若沿 $W$ 行进，遍历了所有的边之后再回到出发点，则每顶 $v$ 的入度与出度必定相同，即 $in−degree(v) = out−degree(v)$。\par
+当对于图$G$中的某个结点 $v$，假设 $in−degree(v) \neq out−degree(v)$ 时，不妨设 $in−degree(v) > out−degree(v)$，若欧拉回路 $W$ 存在，则当沿 $W$ 行进经过 $v$ 时，会遍历其入边与出边各一条。那么必然存在某次经过 $v$时，其出边已全被遍历过，此时遍历应当结束，但 $v$ 还有未被遍历的入边，这与欧拉回路是一条遍历图 $G$ 中每条边恰好一次的环路矛盾，因此假设不成立。\par
+综上，图 $G$ 中有一条欧拉回路当且仅当对于图中的每个结点 $v$，有 $in−degree(v) = out−degree(v)$。
 \subparagraph{b}
-
+由 Fleury 设计的 FE 算法如下
+\begin{codebox}
+	\Procname{$\proc{FE}(G(V, E))$}
+	\li $W_0 \gets v_0 \in V$
+	\li \While $\exists e \in E(G),\ e \notin E(W_i)$
+		\Do
+	\li		Suppose $W_i = v_0v_1\cdots v_i$
+	\li 	Pick $e_{i+1} \in E \setminus E(W_i)$ which is incident to $v_i$
+	\li 	$W_{i+1} \gets W_i + e_{i+1}$
+	\li		Do not pick a bridge of $G - W_i$ when it is unnecessary
+		\End
+\end{codebox}
 
 \section{Problem 24-3 Arbitrage}
 套利交易指的是使用货币汇率之间的差异来将一个单位的货币转换为多于一个单位的同种货币的行为。例如，假定 1 美元可以购买 49 印度卢比，1 印度卢比可以购买 2 日元，1 日元可以购买 0.0107 美元。那么通过在货币间进行转换，一个交易商可以从 1 美元开始，购买 $49*2*0.0107=1.0486$ 美元，从而获得 $4.86\%$ 的利润。
@@ -42,24 +55,45 @@ $\langle c_{i_1}, c_{i_2}, \cdots, c_{i_k} \rangle$，使得
 \paragraph{解}
 \subparagraph{a}
 
+由于 $R[i, j]$ 表示单位 $c_i$ 货币可以购买的 $c_j$ 货币量。故可以对其取对数后的正负来表示是否获利，利用 Bellman Ford 算法，给出判断算法如下：
+\begin{codebox}
+	\Procname{$\proc{Arbitrage}(c, R)$}
+	\li $\attrib{G}{V} \gets c$
+	\li	$w \gets - \log{R}$
+	\li \For each vertex $c_i$
+		\Do
+	\li 	\If $\proc{Bellman-Ford}(G, w, i_1) \isequal \const{false}$
+			\Then
+	\li 		\Return \const{true}
+			\End
+		\End
+	\li \Return \const{false}
+\end{codebox}
+已知 Bellman-Ford 算法的运行时间为 $O(VE)$，因此算法总的时间复杂度为 $O(V^2 E)$
 \subparagraph{b}
-
+为记录负权环路，在前述的 Bellman-Ford 算法中，记录各个顶点的最短路径估计$d$，在算法中再次执行 $V$ 次松弛操作，对于所有$d$值再次改变的顶点，其中一定存在所求的负权环路，逐个取点成环后打印即可。松弛操作消耗 $\Theta(E)$的时间，因此算法的时间复杂度是 $O(VE)$ 的。
 
 \section{Exercise 25.3-5}
 假定在一个权重函数为 $\omega$ 的有向图上运行 Johnson 算法。证明：如果图 $G$ 包含一条权重为 $0$ 的环路 $c$，那么对于环路 $c$ 上的每条边 $(u, v)$，$\hat{w}(u,v) = 0$。
 
 \paragraph{解}
-
+往证重新赋予权重并不改变最短路径，如果图 $G$ 包含一条权重为 $0$ 的环路 $c$，可以认为这是一条起点与终点重合的最短路径，而
+\begin{align*}
+	\hat{w}(p) &= w(p) + h(v_0) - h(v_k) \\
+	&= w(p) + h(v_0) - h(v_0) \\
+	&= w(p) \\
+	&= 0
+\end{align*}
+进而由边权非负，对于环路 $c$ 上的每条边 $(u, v)$，$\hat{w}(u,v) = 0$。
 
 \section{Problem 26-4 Updating maximum flow}
 设 $G = (V,E)$ 是一个源结点为 $s$ 汇结点为 $t$ 的流网络，其容量全部为整数值。假定我们已经给定 $G$ 的一个最大流。
 \subparagraph{a} 如果将单条边 $(u, v) \in E$ 的容量增加 1 个单位，请给出一个 $O(V + E)$ 时间的算法来对最大流进行更新。
 \subparagraph{b} 如果将单条边 $(u, v) \in E$ 的容量减少 1 个单位，请给出一个 $O(V + E)$ 时间的算法来对最大流进行更新。
 
-
 \paragraph{解}
 \subparagraph{a}
-
+利用 Ford-Fulkerson 算法得到 $f(e) = c(e)$ 的所有边 $e$ 的集合 $E'$，若$(u, v) \notin E'$则最大流不需要被更新，否则增加容量后执行 BFS 算法确定增广路径，即可在 $O(V + E') = O(V + E)$的时间内更新最大流。
 \subparagraph{b}
-
+若有 $f(u,v) < c(u,v)$，则最大流不需要被更新，否则对于通过 BFS 确定的一条从源到汇包含边$uv$的路径，将其上各边容量均减少1，则最大流会相应减少1，在 $O(V + E)$的时间内，由a可知，可以通过寻找增广路径确定最大流的更新。
 \end{document}
